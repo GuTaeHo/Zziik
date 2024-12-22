@@ -2,6 +2,32 @@ import ProjectDescription
 
 let deploymentTargets = DeploymentTargets.iOS("15.0")
 
+let fonts = [
+    "Pretendard-Bold.otf",
+    "Pretendard-Medium.otf",
+    "Pretendard-SemiBold.otf",
+    "Pretendard-Regular.otf",
+]
+
+let infoPlist: [String: Plist.Value] = [
+    // 폰트 추가
+    "Fonts provided by application": .array(fonts.map { .string($0) }),
+    // 런치 스크린
+    "UILaunchStoryboardName": "LaunchScreen.storyboard",
+    // 씬 델리게이트
+    "UIApplicationSceneManifest": [
+        "UIApplicationSupportsMultipleScenes": false,
+        "UISceneConfigurations": [
+            "UIWindowSceneSessionRoleApplication": [
+                [
+                    "UISceneConfigurationName": "Default Configuration",
+                    "UISceneDelegateClassName": "$(PRODUCT_MODULE_NAME).SceneDelegate"
+                ],
+            ]
+        ]
+    ],
+]
+
 let project = Project(
     name: "Zziik",
     targets: [
@@ -11,22 +37,7 @@ let project = Project(
             product: .app,
             bundleId: "com.example.Zziik",
             deploymentTargets: deploymentTargets,
-            infoPlist: .extendingDefault(
-                with: [
-                    "UILaunchStoryboardName": "LaunchScreen.storyboard",
-                    "UIApplicationSceneManifest": [
-                        "UIApplicationSupportsMultipleScenes": false,
-                        "UISceneConfigurations": [
-                            "UIWindowSceneSessionRoleApplication": [
-                                [
-                                    "UISceneConfigurationName": "Default Configuration",
-                                    "UISceneDelegateClassName": "$(PRODUCT_MODULE_NAME).SceneDelegate"
-                                ],
-                            ]
-                        ]
-                    ],
-                ]
-            ),
+            infoPlist: .extendingDefault(with: infoPlist),
             sources: ["Zziik/Sources/**"],
             resources: ["Zziik/Resources/**"],
             dependencies: [
