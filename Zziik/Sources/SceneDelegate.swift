@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftUI
  
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
@@ -16,8 +17,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
  
-        let viewController = UIViewController()
-        viewController.view.backgroundColor = .orange
+        let loginView = LoginView()
+        let hostingVC = UIHostingController(rootView: loginView)
+        let viewController = UIViewController().then {
+            $0.addChild(hostingVC)
+            $0.view.addSubview(hostingVC.view)
+            hostingVC.didMove(toParent: $0)
+            $0.view.backgroundColor = .orange
+        }
         
         window?.rootViewController = viewController
         window?.makeKeyAndVisible()

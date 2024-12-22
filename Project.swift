@@ -1,6 +1,6 @@
 import ProjectDescription
 
-let deploymentTargets = DeploymentTargets.iOS("15.0")
+let deploymentTargets = DeploymentTargets.iOS("16.0")
 
 let fonts = [
     "Pretendard-Bold.otf",
