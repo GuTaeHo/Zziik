@@ -9,22 +9,36 @@ import SwiftUI
 import Then
 
 struct LoginView: View {
+    @State private var id: String = ""
+    @State private var pw: String = ""
+    @State private var isLoginEnabled: Bool = false
+    
     var body: some View {
-        let contentViewPadding = 28
-        
         GeometryReader { geometry in
-            ZStack(alignment: .top) {
+            ZStack(alignment: .topLeading) {
                 VStack(alignment: .leading, spacing: 16) {
                     Image(.imgLogo92)
                     Text("기다림이 설렘으로 \n바뀌는 순간")
                         .font(.custom(.regular400, size: 30))
                 }
                 
-                Image(.imgDeliveryBox145)
-                    .frame(alignment: .trailing)
+                VStack {
+                    HStack {
+                        Spacer()
+                        Image(.imgDeliveryBox145)
+                    }.padding(.top, 92)
+                    
+                    VStack(spacing: 30) {
+                        UnderlineTextField(placeholder: "이메일 입력", text: $id)
+                        UnderlineTextField(placeholder: "비밀번호 입력", text: $pw)
+                    }.padding(.top, 18.0)
+                    
+                    CommonButton(title: "로그인")
+                        .offset(x: 0, y: 30)
+                }
             }
+            .padding(.init(horizontal: 28, vertical: 80))
             .frame(width: geometry.size.width, alignment: .topLeading)
-            .padding(.init(top: 80, leading: 28, bottom: 0, trailing: 28))
         }
     }
 }

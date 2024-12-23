@@ -14,18 +14,40 @@ struct UnderlineTextField: View {
     @Binding var text: String
     @FocusState private var isFocused: Bool
     @State private var isSecure: Bool = true
+    @State private var isDeleteVisiable = false
     
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            TextField(placeholder, text: $text)
-                .focused($isFocused)
-                .padding(.top, isFocused || !text.isEmpty ? 20 : 0)
+        VStack(alignment: .leading, spacing: 8) {
+            HStack(alignment: .center, spacing: 12) {
+                TextField(placeholder, text: $text)
+                    .focused($isFocused)
+                    .onChange(of: text) { text in
+                        if text.isEmpty {
+                            isDeleteVisiable = false
+                        } else {
+                            isDeleteVisiable = true
+                        }
+                    }
+                    .onChange(of: isFocused) { isFocused in
+                        if text.isEmpty {
+                            isDeleteVisiable = false
+                        } else {
+                            isDeleteVisiable = true
+                        }
+                    }
+                if isDeleteVisiable {
+                    Button(action: {
+                        text = ""
+                        isDeleteVisiable = false
+                    }) {
+                        Image(.icDelete20)
+                    }.frame(width: 30, height: 30, alignment: .center)
+                }
+            }
             Divider()
                 .background(isFocused ? Color(._1_B_1_D_28) : Color.init(.DCDCDC))
         }
-        .padding(.vertical, 12)
-        .padding(.horizontal)
         .animation(.easeInOut(duration: 0.2), value: isFocused)
     }
 }
