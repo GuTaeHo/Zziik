@@ -1,5 +1,7 @@
 import ProjectDescription
 
+let bundleID = "com.example.Zziik"
+
 let deploymentTargets = DeploymentTargets.iOS("16.0")
 
 let fonts = [
@@ -35,7 +37,7 @@ let project = Project(
             name: "Zziik",
             destinations: .iOS,
             product: .app,
-            bundleId: "com.example.Zziik",
+            bundleId: bundleID,
             deploymentTargets: deploymentTargets,
             infoPlist: .extendingDefault(with: infoPlist),
             sources: ["Zziik/Sources/**"],
@@ -54,7 +56,7 @@ let project = Project(
             name: "ZziikTests",
             destinations: .iOS,
             product: .unitTests,
-            bundleId: "com.example.ZziikTests",
+            bundleId: "\(bundleID)Tests",
             deploymentTargets: deploymentTargets,
             infoPlist: .default,
             sources: ["Zziik/Tests/**"],

@@ -10,10 +10,10 @@ import SwiftUI
 
 extension Font {
     enum FontType: String {
-        case medium = "Pretendard-Medium"
-        case regular = "Pretendard-Regular"
-        case semiBold = "Pretendard-SemiBold"
-        case bold = "Pretendard-Bold"
+        case regular400 = "Pretendard-Regular"
+        case medium500 = "Pretendard-Medium"
+        case semiBold600 = "Pretendard-SemiBold"
+        case bold700 = "Pretendard-Bold"
     }
     
     /// 프로젝트 폰트

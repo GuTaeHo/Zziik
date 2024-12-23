@@ -7,6 +7,7 @@
 
 import UIKit
 import SwiftUI
+import SnapKit
  
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
@@ -16,16 +17,22 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
- 
+        
+        initLayout()
+    }
+    
+    private func initLayout() {
         let loginView = LoginView()
         let hostingVC = UIHostingController(rootView: loginView)
         let viewController = UIViewController().then {
             $0.addChild(hostingVC)
             $0.view.addSubview(hostingVC.view)
+            hostingVC.view.snp.makeConstraints {
+                $0.edges.equalToSuperview()
+            }
             hostingVC.didMove(toParent: $0)
             $0.view.backgroundColor = .orange
         }
-        
         window?.rootViewController = viewController
         window?.makeKeyAndVisible()
     }
