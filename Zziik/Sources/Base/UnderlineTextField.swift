@@ -36,6 +36,7 @@ struct UnderlineTextField: View {
                             isDeleteVisiable = true
                         }
                     }
+                    .frame(height: 30)
                 if isDeleteVisiable {
                     Button(action: {
                         text = ""

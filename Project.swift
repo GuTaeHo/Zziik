@@ -30,6 +30,12 @@ let infoPlist: [String: Plist.Value] = [
     ],
 ]
 
+let dependencies: [TargetDependency] = [
+    .external(name: "Moya"),
+    .external(name: "SnapKit"),
+    .external(name: "Then"),
+]
+
 let project = Project(
     name: "Zziik",
     targets: [
@@ -42,11 +48,7 @@ let project = Project(
             infoPlist: .extendingDefault(with: infoPlist),
             sources: ["Zziik/Sources/**"],
             resources: ["Zziik/Resources/**"],
-            dependencies: [
-                .external(name: "Moya"),
-                .external(name: "SnapKit"),
-                .external(name: "Then"),
-            ],
+            dependencies: dependencies,
             settings: .settings(base: [
                 "CODE_SIGN_STYLE": "Automatic", // 자동 서명
                 "DEVELOPMENT_TEAM": "L8WFLHVUYX" // Apple Developer Team ID
