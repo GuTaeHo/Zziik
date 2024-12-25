@@ -47,7 +47,7 @@ let project = Project(
             deploymentTargets: deploymentTargets,
             infoPlist: .extendingDefault(with: infoPlist),
             sources: ["Zziik/Sources/**"],
-            resources: ["Zziik/Resources/**"],
+            resources: [.glob(pattern: "Zziik/Resources/**")],
             dependencies: dependencies,
             settings: .settings(base: [
                 "CODE_SIGN_STYLE": "Automatic", // 자동 서명

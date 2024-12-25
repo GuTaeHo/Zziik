@@ -21,6 +21,9 @@ struct UnderlineTextField: View {
             HStack(alignment: .center, spacing: 12) {
                 TextField(placeholder, text: $text)
                     .focused($isFocused)
+                    .onAppear {
+                        
+                    }
                     .onChange(of: text) { text in
                         if text.isEmpty {
                             isDeleteVisiable = false
@@ -45,8 +48,15 @@ struct UnderlineTextField: View {
                     }.frame(width: 30, height: 30, alignment: .center)
                 }
             }
-            Divider()
-                .background(isFocused ? Color(._1_B_1_D_28) : Color.init(.DCDCDC))
+            ZStack {
+                Rectangle()
+                    .fill(Color(._1_B_1_D_28))
+                    .scaleEffect(isFocused ? 1 : 0)
+                    .animation(.easeOut(duration: 0.2), value: isFocused)
+                Divider()
+                    .background(isFocused ? Color(._1_B_1_D_28) : Color.init(.DCDCDC))
+            }
+            .frame(height: 1)
         }
         .animation(.easeInOut(duration: 0.2), value: isFocused)
     }

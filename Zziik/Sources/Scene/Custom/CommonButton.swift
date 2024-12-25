@@ -23,24 +23,30 @@ struct CommonButtonStyle: ButtonStyle {
 
 struct CommonButton: View {
     var title: String
+    var action: (() -> ())?
     
-    init(title: String) {
+    @Binding var isEnabled: Bool
+    
+    init(title: String, isEnabled: Binding<Bool>, action: (() -> ())? = nil) {
         self.title = title
+        self._isEnabled = isEnabled
+        self.action = action
     }
     
     var body: some View {
         Button(action: {
-            print("Custom Button tapped")
+            action?()
         }) {
             Text(title)
                 .font(.custom(.semiBold600, size: 16))
                 .frame(maxWidth: .infinity)
         }
         .buttonStyle(CommonButtonStyle())   // 커스텀 버튼 스타일
+        .disabled(!isEnabled)
     }
 }
 
 
 #Preview {
-    CommonButton(title: "안녕")
+    CommonButton(title: "안녕", isEnabled: .constant(true))
 }
