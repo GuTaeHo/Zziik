@@ -13,7 +13,6 @@ struct UnderlineTextField: View {
     
     @Binding var text: String
     @FocusState private var isFocused: Bool
-    @State private var isSecure: Bool = true
     @State private var isDeleteVisiable = false
     
     
