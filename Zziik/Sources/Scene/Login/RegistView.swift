@@ -107,6 +107,8 @@ struct RegistView: View {
         }
     }
     
+    private let emails = ["@naver.com", "@gmail.com", "@hanmail.com", "@nate.com", "@daum.net"]
+    
     @Binding var path: [String]
     
     @State var headerImage: ImageResource = .icHeaderClose24
