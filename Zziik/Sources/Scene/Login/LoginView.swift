@@ -18,135 +18,142 @@ struct LoginView: View {
     @State private var isLoginEnabled: Bool = false
     @State private var invalidReason: String = ""
     
+    @State private var path: [String] = []
+    
     var body: some View {
-        GeometryReader { geometry in
-            ScrollViewReader { proxy in
-                ScrollView {
-                    ZStack(alignment: .topLeading) {
-                        VStack(alignment: .leading, spacing: 16) {
-                            Image(.imgLogo92)
-                            Text("기다림이 설렘으로 \n바뀌는 순간")
-                                .font(.custom(.regular400, size: 30))
-                        }
-                        
-                        VStack {
-                            HStack {
-                                Spacer()
-                                Image(.imgDeliveryBox145)
-                            }.padding(.top, 92)
+        NavigationStack(path: $path) {
+            GeometryReader { geometry in
+                ScrollViewReader { proxy in
+                    ScrollView {
+                        ZStack(alignment: .topLeading) {
+                            VStack(alignment: .leading, spacing: 16) {
+                                Image(.imgLogo92)
+                                Text("기다림이 설렘으로 \n바뀌는 순간")
+                                    .font(.custom(.regular400, size: 30))
+                            }
                             
-                            VStack(spacing: 30) {
-                                UnderlineTextField(placeholder: "이메일 입력", text: $id)
-                                    .submitLabel(.next)
-                                    .focused($idFocus)
-                                    .onAppear {
-                                        //                                        idFocus = true
-                                        withAnimation {
-                                            proxy.scrollTo("idTextField", anchor: .bottom)
-                                        }
-                                    }
-                                    .onSubmit {
-                                        pwFocus = true
-                                        withAnimation {
-                                            proxy.scrollTo("pwTextField", anchor: .bottom)
-                                        }
-                                    }
-                                    .onChange(of: id) { _ in
-                                        validation(isShowAlert: false)
-                                    }
-                                    .id("idTextField")
-                                UnderlinePasswordTextField(placeholder: "비밀번호 입력", text: $pw)
-                                    .submitLabel(.done)
-                                    .focused($pwFocus)
-                                    .onChange(of: pw) { _ in
-                                        validation(isShowAlert: false)
-                                    }
-                                    .id("pwTextField")
-                                
-                            }.padding(.top, 18.0)
-                            
-                            if invalidReason.isEmpty == false {
+                            VStack {
                                 HStack {
-                                    Text(invalidReason)
-                                        .font(.custom(.regular400, size: 13))
-                                        .foregroundStyle(Color.init(.E_90202))
                                     Spacer()
-                                }.offset(y: 12)
-                            }
-                            
-                            VStack(spacing: 16) {
-                                CommonButton(title: "로그인", isEnabled: .constant(true)) {
-                                    validation(isShowAlert: true)
-                                }.onAppear {
-                                    validation(isShowAlert: false)
+                                    Image(.imgDeliveryBox145)
+                                }.padding(.top, 92)
+                                
+                                VStack(spacing: 30) {
+                                    UnderlineTextField(placeholder: "이메일 입력", text: $id)
+                                        .submitLabel(.next)
+                                        .focused($idFocus)
+                                        .onAppear {
+                                            //                                        idFocus = true
+                                            withAnimation {
+                                                proxy.scrollTo("idTextField", anchor: .bottom)
+                                            }
+                                        }
+                                        .onSubmit {
+                                            pwFocus = true
+                                            withAnimation {
+                                                proxy.scrollTo("pwTextField", anchor: .bottom)
+                                            }
+                                        }
+                                        .onChange(of: id) { _ in
+                                            validation(isShowAlert: false)
+                                        }
+                                        .id("idTextField")
+                                    UnderlinePasswordTextField(placeholder: "비밀번호 입력", text: $pw)
+                                        .submitLabel(.done)
+                                        .focused($pwFocus)
+                                        .onChange(of: pw) { _ in
+                                            validation(isShowAlert: false)
+                                        }
+                                        .id("pwTextField")
+                                    
+                                }.padding(.top, 18.0)
+                                
+                                if invalidReason.isEmpty == false {
+                                    HStack {
+                                        Text(invalidReason)
+                                            .font(.custom(.regular400, size: 13))
+                                            .foregroundStyle(Color.init(.E_90202))
+                                        Spacer()
+                                    }.offset(y: 12)
                                 }
                                 
-                                HStack(spacing: 0) {
-                                    Button("회원가입") {
-                                        // TODO: 회원가입 화면 이동
+                                VStack(spacing: 16) {
+                                    CommonButton(title: "로그인", isEnabled: .constant(true)) {
+                                        validation(isShowAlert: true)
+                                    }.onAppear {
+                                        validation(isShowAlert: false)
                                     }
-                                    .padding(8)
-                                    .foregroundStyle(Color.init(._212121))
-                                    .font(.custom(.regular400, size: 14))
-                                    Divider()
-                                        .background(Color.init(.DCDCDC))
-                                        .frame(width: 1, height: 10)
-                                    Button("아이디 찾기") { }
+                                    
+                                    HStack(spacing: 0) {
+                                        Button("회원가입") {
+                                            path.append(RegistView.className)
+                                        }
                                         .padding(8)
                                         .foregroundStyle(Color.init(._212121))
                                         .font(.custom(.regular400, size: 14))
-                                    Divider()
-                                        .background(Color.init(.DCDCDC))
-                                        .frame(width: 1, height: 10)
-                                    Button("비밀번호 찾기") { }
-                                        .padding(8)
-                                        .foregroundStyle(Color.init(._212121))
-                                        .font(.custom(.regular400, size: 14))
-                                }
-                            }.offset(x: 0, y: 30)
+                                        .navigationDestination(for: String.self) { destination in
+                                            RegistView(path: $path)
+                                        }
+                                        Divider()
+                                            .background(Color.init(.DCDCDC))
+                                            .frame(width: 1, height: 10)
+                                        Button("아이디 찾기") { }
+                                            .padding(8)
+                                            .foregroundStyle(Color.init(._212121))
+                                            .font(.custom(.regular400, size: 14))
+                                        Divider()
+                                            .background(Color.init(.DCDCDC))
+                                            .frame(width: 1, height: 10)
+                                        Button("비밀번호 찾기") { }
+                                            .padding(8)
+                                            .foregroundStyle(Color.init(._212121))
+                                            .font(.custom(.regular400, size: 14))
+                                    }
+                                }.offset(x: 0, y: 30)
+                            }
                         }
+                        .padding(.init(horizontal: 28, vertical: 80))
+                        .frame(width: geometry.size.width)
                     }
-                    .padding(.init(horizontal: 28, vertical: 80))
-                    .frame(width: geometry.size.width)
                 }
-            }
-            
-            VStack(alignment: .leading) {
-                Spacer()
-                HStack(spacing: 14) {
-                    Text("간편하게 시작하기")
-                        .font(.custom(.regular400, size: 14))
-                        .foregroundStyle(Color.init(._212121))
+                
+                VStack(alignment: .leading) {
                     Spacer()
-                    Button(action: { }) {
-                        Circle()
-                            .stroke(Color.init(.DCDCDC), lineWidth: 1)
-                            .frame(width: 54, height: 54)
-                            .overlay {
-                                Image(.icGoogleLogo22)
-                                    .frame(width: 22, height: 22)
-                            }
+                    HStack(spacing: 14) {
+                        Text("간편하게 시작하기")
+                            .font(.custom(.regular400, size: 14))
+                            .foregroundStyle(Color.init(._212121))
+                        Spacer()
+                        Button(action: { }) {
+                            Circle()
+                                .stroke(Color.init(.DCDCDC), lineWidth: 1)
+                                .frame(width: 54, height: 54)
+                                .overlay {
+                                    Image(.icGoogleLogo22)
+                                        .frame(width: 22, height: 22)
+                                }
+                        }
+                        .frame(width: 54, height: 54)
+                        SignInWithAppleView()
+                        .frame(width: 54, height: 54)
+                        Button(action: { }) {
+                            Circle()
+                                .fill(.yellow)
+                                .frame(width: 54, height: 54)
+                                .overlay {
+                                    Image(.icKakaoLogo22)
+                                        .frame(width: 22, height: 22)
+                                }
+                        }
+                        .frame(width: 54, height: 54)
                     }
-                    .frame(width: 54, height: 54)
-                    SignInWithAppleView()
-                    .frame(width: 54, height: 54)
-                    Button(action: { }) {
-                        Circle()
-                            .fill(.yellow)
-                            .frame(width: 54, height: 54)
-                            .overlay {
-                                Image(.icKakaoLogo22)
-                                    .frame(width: 22, height: 22)
-                            }
-                    }
-                    .frame(width: 54, height: 54)
+                    .padding([.leading, .trailing], 26)
+                    .frame(maxWidth: .infinity, maxHeight: 86)
+                    .background(Color(.F_9_F_9_F_9))
                 }
-                .padding([.leading, .trailing], 26)
-                .frame(maxWidth: .infinity, maxHeight: 86)
-                .background(Color(.F_9_F_9_F_9))
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .ignoresSafeArea(.keyboard, edges: .bottom)
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .ignoresSafeArea(.keyboard, edges: .bottom)
         }
     }
     
