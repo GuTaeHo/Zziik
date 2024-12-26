@@ -12,11 +12,8 @@ struct CommonButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .padding()
-            .background(configuration.isPressed ? Color.gray : .init(._1_B_1_D_28))
             .foregroundColor(.white)
             .cornerRadius(10)
-            .scaleEffect(configuration.isPressed ? 0.95 : 1.0) // 눌림 효과
-            .animation(.easeInOut(duration: 0.2), value: configuration.isPressed)
     }
 }
 
@@ -40,9 +37,13 @@ struct CommonButton: View {
             Text(title)
                 .font(.custom(.semiBold600, size: 16))
                 .frame(maxWidth: .infinity)
+                .contentShape(Rectangle())  // 클릭 영역 확대
+        }.onTapGesture {
+            action?()
         }
+        .background(isEnabled ? .init(._1_B_1_D_28) : Color.gray)
+        .cornerRadius(10)
         .buttonStyle(CommonButtonStyle())   // 커스텀 버튼 스타일
-        .disabled(!isEnabled)
     }
 }
 

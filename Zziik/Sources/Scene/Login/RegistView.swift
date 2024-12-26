@@ -7,10 +7,8 @@
 
 import SwiftUI
 import Then
-import AuthenticationServices
 
-
-struct LoginView: View {
+struct RegistView: View {
     @State private var id: String = ""
     @FocusState private var idFocus: Bool
     @State private var pw: String = ""
@@ -40,7 +38,7 @@ struct LoginView: View {
                                     .submitLabel(.next)
                                     .focused($idFocus)
                                     .onAppear {
-                                        //                                        idFocus = true
+//                                        idFocus = true
                                         withAnimation {
                                             proxy.scrollTo("idTextField", anchor: .bottom)
                                         }
@@ -52,14 +50,14 @@ struct LoginView: View {
                                         }
                                     }
                                     .onChange(of: id) { _ in
-                                        validation(isShowAlert: false)
+                                        validation()
                                     }
                                     .id("idTextField")
                                 UnderlinePasswordTextField(placeholder: "비밀번호 입력", text: $pw)
                                     .submitLabel(.done)
                                     .focused($pwFocus)
-                                    .onChange(of: pw) { _ in
-                                        validation(isShowAlert: false)
+                                    .onChange(of: id) { _ in
+                                        validation()
                                     }
                                     .id("pwTextField")
                                 
@@ -75,19 +73,17 @@ struct LoginView: View {
                             }
                             
                             VStack(spacing: 16) {
-                                CommonButton(title: "로그인", isEnabled: .constant(true)) {
-                                    validation(isShowAlert: true)
-                                }.onAppear {
-                                    validation(isShowAlert: false)
+                                CommonButton(title: "로그인", isEnabled: $isLoginEnabled) {
+                                    
                                 }
                                 
                                 HStack(spacing: 0) {
                                     Button("회원가입") {
                                         // TODO: 회원가입 화면 이동
                                     }
-                                    .padding(8)
-                                    .foregroundStyle(Color.init(._212121))
-                                    .font(.custom(.regular400, size: 14))
+                                        .padding(8)
+                                        .foregroundStyle(Color.init(._212121))
+                                        .font(.custom(.regular400, size: 14))
                                     Divider()
                                         .background(Color.init(.DCDCDC))
                                         .frame(width: 1, height: 10)
@@ -128,7 +124,15 @@ struct LoginView: View {
                             }
                     }
                     .frame(width: 54, height: 54)
-                    SignInWithAppleView()
+                    Button(action: { }) {
+                        Circle()
+                            .fill(.black)
+                            .frame(width: 54, height: 54)
+                            .overlay {
+                                Image(.icAppleLogo22)
+                                    .frame(width: 22, height: 22)
+                            }
+                    }
                     .frame(width: 54, height: 54)
                     Button(action: { }) {
                         Circle()
@@ -150,29 +154,18 @@ struct LoginView: View {
         }
     }
     
-    func validation(isShowAlert: Bool) {
+    func validation() {
         if id.isEmpty || pw.isEmpty {
-            if isShowAlert {
-                invalidReason = "이메일 또는 비밀번호가 맞지 않습니다. 다시 확인해주세요."
-            } else {
-                invalidReason = ""
-            }
+            invalidReason = "이메일 또는 비밀번호가 맞지 않습니다. 다시 확인해주세요."
+            isLoginEnabled = false
             return
         }
         
         invalidReason = ""
-    }
-    
-    func handleAuthorization(_ authResults: ASAuthorization) {
-        if let appleIDCredential = authResults.credential as? ASAuthorizationAppleIDCredential {
-            let userID = appleIDCredential.user
-            let email = appleIDCredential.email
-            print("User ID: \(userID)")
-            print("Email: \(email ?? "No email")")
-        }
+        isLoginEnabled = true
     }
 }
 
 #Preview {
-    LoginView()
+    RegistView()
 }
