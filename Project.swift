@@ -31,6 +31,9 @@ let infoPlist: [String: Plist.Value] = [
             ]
         ]
     ],
+    "UIBackgroundModes": [
+        "remote-notification",
+    ],
 ]
 
 let dependencies: [TargetDependency] = [
@@ -51,6 +54,7 @@ let project = Project(
             infoPlist: .extendingDefault(with: infoPlist),
             sources: ["Zziik/Sources/**"],
             resources: [.glob(pattern: "Zziik/Resources/**")],
+            entitlements: .file(path: "Zziik/Zziik.entitlements"),
             dependencies: dependencies,
             settings: .settings(base: [
                 "CODE_SIGN_STYLE": "Automatic", // 자동 서명
