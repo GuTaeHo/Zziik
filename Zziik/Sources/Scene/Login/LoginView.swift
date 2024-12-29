@@ -134,7 +134,16 @@ struct LoginView: View {
                                 }
                         }
                         .frame(width: 54, height: 54)
-                        SignInWithAppleView()
+                        AppleLoginView { result in
+                            switch result {
+                            case .success(let response):
+                                // TODO: 로그인 API 호출
+                                break
+                            case .failure(let error):
+                                // TODO: 로그인 실패 얼럿
+                                break
+                            }
+                        }
                         .frame(width: 54, height: 54)
                         Button(action: { }) {
                             Circle()
