@@ -40,6 +40,9 @@ let dependencies: [TargetDependency] = [
     .external(name: "Moya"),
     .external(name: "SnapKit"),
     .external(name: "Then"),
+    .external(name: "KakaoSDKCommon"),
+    .external(name: "KakaoSDKAuth"),
+    .external(name: "KakaoSDKUser"),
 ]
 
 let project = Project(
