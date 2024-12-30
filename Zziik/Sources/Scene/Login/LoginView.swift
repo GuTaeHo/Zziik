@@ -20,6 +20,8 @@ struct LoginView: View {
     
     @State private var path: [String] = []
     
+    @StateObject private var loginAlert: SocialLoginAlert = .init(isShowing: false)
+    
     var body: some View {
         NavigationStack(path: $path) {
             GeometryReader { geometry in
@@ -140,8 +142,12 @@ struct LoginView: View {
                                 // TODO: 로그인 API 호출
                                 break
                             case .failure(let error):
-                                // TODO: 로그인 실패 얼럿
-                                break
+                                loginAlert.isShowing = true
+                                loginAlert.error = error
+                            }
+                        }.alert(isPresented: $loginAlert.isShowing, error: loginAlert.error) {
+                            Button("확인") {
+                                loginAlert.isShowing = false
                             }
                         }
                         .frame(width: 54, height: 54)
