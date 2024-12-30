@@ -78,7 +78,7 @@ struct LoginView: View {
                                 }
                                 
                                 VStack(spacing: 16) {
-                                    CommonButton(title: "로그인", isEnabled: .constant(true)) {
+                                    CommonButton(title: "로그인", isEnabled: $isLoginEnabled) {
                                         validation(isShowAlert: true)
                                     }.onAppear {
                                         validation(isShowAlert: false)
@@ -168,6 +168,7 @@ struct LoginView: View {
     
     func validation(isShowAlert: Bool) {
         if id.isEmpty || pw.isEmpty {
+            isLoginEnabled = false
             if isShowAlert {
                 invalidReason = "이메일 또는 비밀번호가 맞지 않습니다. 다시 확인해주세요."
             } else {
@@ -176,6 +177,7 @@ struct LoginView: View {
             return
         }
         
+        isLoginEnabled = true
         invalidReason = ""
     }
     

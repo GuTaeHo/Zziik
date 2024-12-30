@@ -8,8 +8,8 @@
 import SwiftUI
 import AuthenticationServices
 
-struct AppleLoginView: View {
-    private var loginHandler: ((Result<SocialLoginResponse, CommonError>) -> ())
+struct AppleLoginView: View, SocialLoginable {
+    internal var loginHandler: ((Result<SocialLoginResponse, CommonError>) -> ())
     
     private var delegate: AppleSignInCoordinator
     

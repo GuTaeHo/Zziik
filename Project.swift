@@ -1,6 +1,6 @@
 import ProjectDescription
 
-let bundleID = "com.example.Zziik"
+let bundleID = "com.halftime.zziik"
 
 let deploymentTargets = DeploymentTargets.iOS("16.0")
 
