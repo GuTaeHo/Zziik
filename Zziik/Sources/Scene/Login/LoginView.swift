@@ -74,7 +74,7 @@ struct LoginView: View {
                                     HStack {
                                         Text(invalidReason)
                                             .font(.custom(.regular400, size: 13))
-                                            .foregroundStyle(Color.init(.E_90202))
+                                            .foregroundStyle(Color.init(.e90202))
                                         Spacer()
                                     }.offset(y: 12)
                                 }
@@ -91,20 +91,20 @@ struct LoginView: View {
                                             path.append(RegistView.className)
                                         }
                                         .padding(8)
-                                        .foregroundStyle(Color.init(._212121))
+                                        .foregroundStyle(Color(._212121))
                                         .font(.custom(.regular400, size: 14))
                                         .navigationDestination(for: String.self) { destination in
                                             RegistView(path: $path)
                                         }
                                         Divider()
-                                            .background(Color.init(.DCDCDC))
+                                            .background(Color(.dcdcdc))
                                             .frame(width: 1, height: 10)
                                         Button("아이디 찾기") { }
                                             .padding(8)
                                             .foregroundStyle(Color.init(._212121))
                                             .font(.custom(.regular400, size: 14))
                                         Divider()
-                                            .background(Color.init(.DCDCDC))
+                                            .background(Color.init(.dcdcdc))
                                             .frame(width: 1, height: 10)
                                         Button("비밀번호 찾기") { }
                                             .padding(8)
@@ -128,7 +128,7 @@ struct LoginView: View {
                         Spacer()
                         Button(action: { }) {
                             Circle()
-                                .stroke(Color.init(.DCDCDC), lineWidth: 1)
+                                .stroke(Color.init(.dcdcdc), lineWidth: 1)
                                 .frame(width: 54, height: 54)
                                 .overlay {
                                     Image(.icGoogleLogo22)
@@ -153,7 +153,7 @@ struct LoginView: View {
                         .frame(width: 54, height: 54)
                         Button(action: { }) {
                             Circle()
-                                .fill(.yellow)
+                                .fill(Color(.ffeb00))
                                 .frame(width: 54, height: 54)
                                 .overlay {
                                     Image(.icKakaoLogo22)
@@ -164,7 +164,7 @@ struct LoginView: View {
                     }
                     .padding([.leading, .trailing], 26)
                     .frame(maxWidth: .infinity, maxHeight: 86)
-                    .background(Color(.F_9_F_9_F_9))
+                    .background(Color(.f9F9F9))
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .ignoresSafeArea(.keyboard, edges: .bottom)

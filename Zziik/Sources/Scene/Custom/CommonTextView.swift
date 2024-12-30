@@ -37,7 +37,7 @@ class CommonTextView: UITextView {
         self.backgroundColor = .clear
         self.textContainer.lineFragmentPadding = 0
         self.textContainerInset = .zero
-        self.textColor = .init(resource: .FFFFFF)
+        self.textColor = .init(resource: .ffffff)
         self.font = .font(type: .regular400, size: 16)
         self.dataDetectorTypes = .link
     }

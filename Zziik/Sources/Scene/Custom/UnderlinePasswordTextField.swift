@@ -96,11 +96,11 @@ struct UnderlinePasswordTextField: View {
             }
             ZStack {
                 Rectangle()
-                    .fill(Color(._1_B_1_D_28))
+                    .fill(Color(._1B1D28))
                     .scaleEffect(isFocused ? 1 : 0)
                     .animation(.easeOut(duration: 0.2), value: isFocused)
                 Divider()
-                    .background(isFocused ? Color(._1_B_1_D_28) : Color.init(.DCDCDC))
+                    .background(isFocused ? Color(._1B1D28) : Color.init(.dcdcdc))
             }
             .frame(height: 1)
         }

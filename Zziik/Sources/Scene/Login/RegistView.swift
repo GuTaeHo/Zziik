@@ -155,11 +155,11 @@ struct RegistView: View {
                             }
                             GeometryReader { geometry in
                                 Rectangle()
-                                    .fill(Color.init(.F_2_F_2_F_2))
+                                    .fill(Color.init(.f2F2F2))
                                     .cornerRadius(1.5)
                                     .overlay(alignment: .leading) {
                                         Rectangle()
-                                            .fill(Color.init(.F_37_B_32))
+                                            .fill(Color.init(.f37B32))
                                             .frame(width: (geometry.size.width / 6) * CGFloat(progress.pageNumber))
                                             .cornerRadius(1.5)
                                     }
@@ -175,7 +175,7 @@ struct RegistView: View {
                                 .font(.custom(.regular400, size: 14))
                                 .foregroundStyle(Color.init(._212121))
                                 .padding(.init(top: 1, leading: 12, bottom: 1, trailing: 12))
-                                .background(Color.init(.EBEDF_4))
+                                .background(Color.init(.ebedf4))
                                 .clipShape(.capsule)
                             
                             Text(progress.title)
@@ -211,7 +211,7 @@ struct RegistView: View {
                                     Spacer(minLength: 13)
                                     Text("비밀번호가 맞지 않습니다")
                                         .font(.custom(.regular400, size: 13))
-                                        .foregroundStyle(Color.init(.E_90202))
+                                        .foregroundStyle(Color.init(.e90202))
                                 }
                                 Spacer(minLength: 31)
                                 CommonButton(title: "계속하기", isEnabled: .constant(password.isEmpty == false)) {

@@ -41,7 +41,7 @@ struct CommonButton: View {
         }.onTapGesture {
             action?()
         }
-        .background(isEnabled ? .init(._1_B_1_D_28) : Color.gray)
+        .background(isEnabled ? .init(._1B1D28) : Color.gray)
         .cornerRadius(10)
         .buttonStyle(CommonButtonStyle())   // 커스텀 버튼 스타일
     }

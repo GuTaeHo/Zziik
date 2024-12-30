@@ -9,11 +9,11 @@ import UIKit
 
 extension AttributedString {
     /// 속성이 지정된 문자열을 반환합니다.
-    static func styledText(_ text: String, fontType: UIFont.FontType, fontSize: CGFloat, fontColor: UIColor = .init(resource: .FFFFFF), textAlignment: NSTextAlignment = .left) -> AttributedString {
+    static func styledText(_ text: String, fontType: UIFont.FontType, fontSize: CGFloat, fontColor: UIColor = .init(resource: .ffffff), textAlignment: NSTextAlignment = .left) -> AttributedString {
         let paragraphStyle: NSMutableParagraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = textAlignment
         
-        var attr: [NSAttributedString.Key : Any] = [
+        let attr: [NSAttributedString.Key : Any] = [
             .font: UIFont.font(type: fontType, size: fontSize),
             .foregroundColor: fontColor,
             .paragraphStyle: paragraphStyle

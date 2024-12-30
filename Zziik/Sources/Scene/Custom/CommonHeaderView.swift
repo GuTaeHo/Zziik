@@ -33,7 +33,7 @@ struct CommonHeaderView: View {
                             leftButtonAction?()
                         }) {
                             Image(leftButtonImage)
-                                .foregroundStyle(Color.init(._1_B_1_D_28))
+                                .foregroundStyle(Color.init(._1B1D28))
                                 .frame(width: 24, height: 24)
                         }.frame(width: 36, height: 36)
                         Spacer()
@@ -43,7 +43,7 @@ struct CommonHeaderView: View {
                 if let title {
                     Text(title)
                         .font(.custom(.regular400, size: 18))
-                        .foregroundColor(Color.init(._1_B_1_D_28))
+                        .foregroundColor(Color.init(._1B1D28))
                 }
                 
                 if let rightButtonTitle {
