@@ -34,6 +34,23 @@ let infoPlist: [String: Plist.Value] = [
     "UIBackgroundModes": [
         "remote-notification",
     ],
+    // 앱 실행 허용 목록
+    "LSApplicationQueriesSchemes": [
+        // 카카오톡으로 로그인
+        "kakaokompassauth",
+        // 카카오톡 공유
+        "kakaolink",
+        // 카카오톡 채널
+        "kakaoplus",
+    ],
+    // URL Scheme 지정
+    "CFBundleURLTypes": [
+        [
+            "CFBundleURLSchemes": [
+                "kakao92558f4b53ef4b1692cabce8bb7e4711",
+            ]
+        ]
+    ]
 ]
 
 let dependencies: [TargetDependency] = [
