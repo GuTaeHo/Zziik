@@ -72,6 +72,23 @@ struct RegistView: View {
             }
         }
         
+        var maxTextCount: Int {
+            switch self {
+            case .email:
+                return .max
+            case .name:
+                return .max
+            case .password:
+                return 15
+            case .address:
+                return .max
+            case .birthday:
+                return 8
+            case .phoneNumber:
+                return 12
+            }
+        }
+        
         var next: Self? {
             switch self {
             case .email:
@@ -111,14 +128,15 @@ struct RegistView: View {
     
     @Binding var path: [String]
     
-    @State var headerImage: ImageResource = .icHeaderClose24
     @State var progress: Progress = .birthday
+    @FocusState var focused: Progress?
     
     @State var email: String = ""
     @State var emailAlert: String = ""
     @State var name: String = ""
     @State var nameAlert: String = ""
     @State var password: String = ""
+    @State var passwordAlert: String = ""
     @State var confirmPassword: String = ""
     @State var postNumber: String = ""
     @State var address: String = ""
@@ -190,42 +208,47 @@ struct RegistView: View {
                             switch progress {
                             case .email:
                                 UnderlineTextField(placeholder: "이메일을 입력해주세요", text: $email, alertText: $emailAlert)
+                                    .focused($focused, equals: .email)
+                                    .keyboardType(.emailAddress)
                                 Spacer(minLength: 31)
                                 CommonButton(title: "계속하기", isEnabled: .constant(RegExpUtil.evaluate(type: .email, compareWith: email))) {
                                     if RegExpUtil.evaluate(type: .email, compareWith: email) {
                                         account.email = email
                                         progress = .name
+                                        focused = .name
                                     } else {
                                         emailAlert = "이메일 형식에 맞지 않아요"
                                     }
                                 }
                             case .name:
                                 UnderlineTextField(placeholder: "이름을 입력해주세요", text: $name, alertText: $nameAlert)
+                                    .focused($focused, equals: .name)
                                 Spacer(minLength: 31)
                                 CommonButton(title: "계속하기", isEnabled: .constant(name.isEmpty == false)) {
                                     if name.isEmpty == false {
                                         progress = .password
+                                        focused = .password
                                     } else {
                                         nameAlert = "이름을 입력해주세요"
                                     }
                                 }
                             case .password:
-                                UnderlineTextField(placeholder: "비밀번호를 입력해주세요", text: $password, evaluateType: .password)
+                                UnderlineTextField(placeholder: "비밀번호를 입력해주세요", text: $password, maxTextCount: progress.maxTextCount, evaluateType: .password)
+                                    .focused($focused, equals: .password)
+                                    .keyboardType(.asciiCapable)
                                 Spacer(minLength: 13)
                                 Text("영문, 숫자 포함 8~15자로 입력해주세요")
                                     .font(.custom(.regular400, size: 13))
                                     .foregroundStyle(Color.init(._666666))
                                 Spacer(minLength: 16)
-                                UnderlineTextField(placeholder: "비밀번호를 다시 입력해주세요", text: $confirmPassword)
-                                if password != confirmPassword {
-                                    Spacer(minLength: 13)
-                                    Text("비밀번호가 맞지 않습니다")
-                                        .font(.custom(.regular400, size: 13))
-                                        .foregroundStyle(Color.init(.e90202))
-                                }
+                                UnderlineTextField(placeholder: "비밀번호를 다시 입력해주세요", text: $confirmPassword, alertText: $passwordAlert, maxTextCount: progress.maxTextCount)
+                                    .keyboardType(.asciiCapable)
                                 Spacer(minLength: 31)
-                                CommonButton(title: "계속하기", isEnabled: .constant(password.isEmpty == false)) {
-                                    progress = .address
+                                CommonButton(title: "계속하기", isEnabled: .constant(passwordValidation())) {
+                                    if passwordValidation() {
+                                        progress = .address
+                                        focused = .address
+                                    }
                                 }
                             case .address:
                                 UnderlineTextField(placeholder: "우편번호", text: $postNumber)
@@ -236,18 +259,20 @@ struct RegistView: View {
                                 Spacer(minLength: 31)
                                 CommonButton(title: "계속하기", isEnabled: .constant(address.isEmpty == false)) {
                                     progress = .birthday
+                                    focused = .birthday
                                 }
                             case .birthday:
-                                UnderlineTextField(placeholder: "생년월일을 입력하세요 (YYYYMMDD)", text: $birthDate, maxTextCount: 8, evaluateType: .birthday)
+                                UnderlineTextField(placeholder: "생년월일을 입력하세요 (YYYYMMDD)", text: $birthDate, maxTextCount: progress.maxTextCount, evaluateType: .birthday)
                                     .keyboardType(.numberPad)
                                 Spacer(minLength: 31)
                                 CommonButton(title: "계속하기", isEnabled: .constant(RegExpUtil.evaluate(type: .birthday, compareWith: birthDate))) {
                                     if RegExpUtil.evaluate(type: .birthday, compareWith: birthDate) {
                                         progress = .phoneNumber
+                                        focused = .phoneNumber
                                     }
                                 }
                             case .phoneNumber:
-                                UnderlineTextField(placeholder: "전화번호를 입력하세요 (-빼고)", text: $phoneNumber)
+                                UnderlineTextField(placeholder: "전화번호를 입력하세요 (-빼고)", text: $phoneNumber, maxTextCount: progress.maxTextCount)
                                     .keyboardType(.numberPad)
                                 Spacer(minLength: 31)
                                 CommonButton(title: "계속하기", isEnabled: .constant(password.isEmpty == false)) {
@@ -272,6 +297,16 @@ struct RegistView: View {
     }
     
     func passwordValidation() -> Bool {
+        if !RegExpUtil.evaluate(type: .password, compareWith: password) {
+            passwordAlert = "비밀번호 형식에 맞지 않습니다"
+            return false
+        }
+        
+        if password != confirmPassword {
+            passwordAlert = "비밀번호가 서로 일치하지 않습니다"
+            return false
+        }
+        
         return true
     }
     
