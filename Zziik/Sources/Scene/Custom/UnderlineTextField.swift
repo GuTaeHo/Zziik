@@ -33,7 +33,7 @@ struct UnderlineTextField: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            HStack(alignment: .center, spacing: 12) {
+            HStack(alignment: .center, spacing: 0) {
                 TextField(placeholder, text: $text)
                     .focused($isFocused)
                     .onAppear {
@@ -58,6 +58,13 @@ struct UnderlineTextField: View {
                         }
                     }
                     .frame(height: 30)
+                
+                if let evaluateType, RegExpUtil.evaluate(type: evaluateType, compareWith: text) {
+                    Image(.icCheck16)
+                        .foregroundStyle(Color(.f37B32))
+                        .frame(width: 30, height: 30, alignment: .center)
+                }
+                
                 if isDeleteVisiable {
                     Button(action: {
                         text = ""
@@ -65,12 +72,6 @@ struct UnderlineTextField: View {
                     }) {
                         Image(.icDelete20)
                     }.frame(width: 30, height: 30, alignment: .center)
-                }
-                
-                if let evaluateType, RegExpUtil.evaluate(type: evaluateType, compareWith: text) {
-                    Image(.icCheck16)
-                        .foregroundStyle(Color(.f37B32))
-                        .frame(width: 30, height: 30, alignment: .center)
                 }
             }
             ZStack {
