@@ -12,7 +12,6 @@ struct CommonButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .padding()
-            .foregroundColor(.white)
             .cornerRadius(10)
     }
 }
@@ -41,7 +40,8 @@ struct CommonButton: View {
         }.onTapGesture {
             action?()
         }
-        .background(isEnabled ? .init(._1B1D28) : Color.gray)
+        .background(isEnabled ? Color(._1B1D28) : Color(.dcdcdc))
+        .foregroundStyle(isEnabled ? Color(.white) : Color(._999999))
         .cornerRadius(10)
         .buttonStyle(CommonButtonStyle())   // 커스텀 버튼 스타일
     }

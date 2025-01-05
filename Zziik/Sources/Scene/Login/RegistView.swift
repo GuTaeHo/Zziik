@@ -112,10 +112,12 @@ struct RegistView: View {
     @Binding var path: [String]
     
     @State var headerImage: ImageResource = .icHeaderClose24
-    @State var progress: Progress = .email
+    @State var progress: Progress = .birthday
     
     @State var email: String = ""
+    @State var emailAlert: String = ""
     @State var name: String = ""
+    @State var nameAlert: String = ""
     @State var password: String = ""
     @State var confirmPassword: String = ""
     @State var postNumber: String = ""
@@ -125,7 +127,7 @@ struct RegistView: View {
     @State var phoneNumber: String = ""
     
     
-    var account: Account = .init()
+    @State var account: Account = .init()
     
     var body: some View {
         GeometryReader { geometry in
@@ -187,20 +189,28 @@ struct RegistView: View {
                             
                             switch progress {
                             case .email:
-                                UnderlineTextField(placeholder: "이메일을 입력해주세요", text: $email)
+                                UnderlineTextField(placeholder: "이메일을 입력해주세요", text: $email, alertText: $emailAlert)
                                 Spacer(minLength: 31)
-                                // TODO: 정규식 검사할 것
-                                CommonButton(title: "계속하기", isEnabled: .constant(email.isEmpty == false)) {
-                                    progress = .name
+                                CommonButton(title: "계속하기", isEnabled: .constant(RegExpUtil.evaluate(type: .email, compareWith: email))) {
+                                    if RegExpUtil.evaluate(type: .email, compareWith: email) {
+                                        account.email = email
+                                        progress = .name
+                                    } else {
+                                        emailAlert = "이메일 형식에 맞지 않아요"
+                                    }
                                 }
                             case .name:
-                                UnderlineTextField(placeholder: "이름을 입력해주세요", text: $name)
+                                UnderlineTextField(placeholder: "이름을 입력해주세요", text: $name, alertText: $nameAlert)
                                 Spacer(minLength: 31)
                                 CommonButton(title: "계속하기", isEnabled: .constant(name.isEmpty == false)) {
-                                    progress = .password
+                                    if name.isEmpty == false {
+                                        progress = .password
+                                    } else {
+                                        nameAlert = "이름을 입력해주세요"
+                                    }
                                 }
                             case .password:
-                                UnderlineTextField(placeholder: "비밀번호를 입력해주세요", text: $password)
+                                UnderlineTextField(placeholder: "비밀번호를 입력해주세요", text: $password, evaluateType: .password)
                                 Spacer(minLength: 13)
                                 Text("영문, 숫자 포함 8~15자로 입력해주세요")
                                     .font(.custom(.regular400, size: 13))
@@ -228,13 +238,17 @@ struct RegistView: View {
                                     progress = .birthday
                                 }
                             case .birthday:
-                                UnderlineTextField(placeholder: "생년월일을 입력하세요 (YYYYMMDD)", text: $birthDate)
+                                UnderlineTextField(placeholder: "생년월일을 입력하세요 (YYYYMMDD)", text: $birthDate, maxTextCount: 8, evaluateType: .birthday)
+                                    .keyboardType(.numberPad)
                                 Spacer(minLength: 31)
-                                CommonButton(title: "계속하기", isEnabled: .constant(birthDate.isEmpty == false)) {
-                                    progress = .phoneNumber
+                                CommonButton(title: "계속하기", isEnabled: .constant(RegExpUtil.evaluate(type: .birthday, compareWith: birthDate))) {
+                                    if RegExpUtil.evaluate(type: .birthday, compareWith: birthDate) {
+                                        progress = .phoneNumber
+                                    }
                                 }
                             case .phoneNumber:
                                 UnderlineTextField(placeholder: "전화번호를 입력하세요 (-빼고)", text: $phoneNumber)
+                                    .keyboardType(.numberPad)
                                 Spacer(minLength: 31)
                                 CommonButton(title: "계속하기", isEnabled: .constant(password.isEmpty == false)) {
                                     // TODO: 약관 동의 화면 이동
