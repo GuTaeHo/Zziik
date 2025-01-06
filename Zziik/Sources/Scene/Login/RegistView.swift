@@ -126,7 +126,7 @@ struct RegistView: View {
     
     private let emails = ["@naver.com", "@gmail.com", "@hanmail.com", "@nate.com", "@daum.net"]
     
-    @Binding var path: [String]
+    @Binding var path: [LoginNavigationType]
     
     @State var progress: Progress = .birthday
     @FocusState var focused: Progress?
@@ -160,6 +160,7 @@ struct RegistView: View {
                     if let next = progress.next {
                         progress = next
                     } else {
+                        path.append(.termsAgreement)
                         // TODO: 약관 동의 화면 전환
                     }
                 }
@@ -275,7 +276,7 @@ struct RegistView: View {
                                 UnderlineTextField(placeholder: "전화번호를 입력하세요 (-빼고)", text: $phoneNumber, maxTextCount: progress.maxTextCount)
                                     .keyboardType(.numberPad)
                                 Spacer(minLength: 31)
-                                CommonButton(title: "계속하기", isEnabled: .constant(password.isEmpty == false)) {
+                                CommonButton(title: "계속하기", isEnabled: .constant(phoneNumber.isEmpty == false)) {
                                     // TODO: 약관 동의 화면 이동
                                 }
                             }
@@ -324,5 +325,5 @@ struct RegistView: View {
 }
 
 #Preview {
-    RegistView(path: .constant([""]))
+    RegistView(path: .constant([.login]))
 }

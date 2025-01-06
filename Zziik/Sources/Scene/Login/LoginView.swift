@@ -18,7 +18,7 @@ struct LoginView: View {
     @State private var isLoginEnabled: Bool = false
     @State private var invalidReason: String = ""
     
-    @State private var path: [String] = []
+    @State private var path: [LoginNavigationType] = []
     
     @StateObject private var alert: CommonAlert = .init(isShowing: false)
     
@@ -88,14 +88,11 @@ struct LoginView: View {
                                     
                                     HStack(spacing: 0) {
                                         Button("회원가입") {
-                                            path.append(RegistView.className)
+                                            path.append(.regist)
                                         }
                                         .padding(8)
                                         .foregroundStyle(Color(._212121))
                                         .font(.custom(.regular400, size: 14))
-                                        .navigationDestination(for: String.self) { destination in
-                                            RegistView(path: $path)
-                                        }
                                         Divider()
                                             .background(Color(.dcdcdc))
                                             .frame(width: 1, height: 10)
@@ -173,6 +170,16 @@ struct LoginView: View {
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .ignoresSafeArea(.keyboard, edges: .bottom)
+            }
+            .navigationDestination(for: LoginNavigationType.self) { dest in
+                switch dest {
+                case .login:
+                    LoginView()
+                case .regist:
+                    RegistView(path: $path)
+                case .termsAgreement:
+                    TermsAgreementView(path: $path)
+                }
             }
         }
     }
