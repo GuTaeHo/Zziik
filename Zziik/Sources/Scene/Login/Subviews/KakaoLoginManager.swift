@@ -78,21 +78,8 @@ struct KakaoLoginView: View, SocialLoginable {
             if let id = user?.id, let email = user?.kakaoAccount?.email {
                 loginHandler(.success(.init(id: "\(id)", email: email)))
             } else {
-                DispatchQueue.main.async {
-                    self.scopesAgree()
-                }
+                loginHandler(.failure(CommonError.message(msg: "유저 정보를 가져오는데 실패했어요")))
             }
-        }
-    }
-    
-    /// 필수 정보 획득 권한이 없는 경우 사용자에게 권한 재요청
-    private func scopesAgree() {
-        UserApi.shared.loginWithKakaoAccount(scopes: ["account_email"]) { oauthToken, error in
-            if let error = error {
-                loginHandler(.failure(CommonError.message(msg: error.localizedDescription)))
-                return
-            }
-            getUserInfo()
         }
     }
 }
