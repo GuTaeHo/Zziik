@@ -50,7 +50,9 @@ let infoPlist: [String: Plist.Value] = [
                 "kakao92558f4b53ef4b1692cabce8bb7e4711",
             ]
         ]
-    ]
+    ],
+    // 카카오 SDK 키 (.xcconfig 에 설정됨)
+    "KAKAO_NATIVE_APP_KEY": "$(KAKAO_NATIVE_APP_KEY)",
 ]
 
 let dependencies: [TargetDependency] = [
@@ -76,10 +78,16 @@ let project = Project(
             resources: [.glob(pattern: "Zziik/Resources/**")],
             entitlements: .file(path: "Zziik/Zziik.entitlements"),
             dependencies: dependencies,
-            settings: .settings(base: [
+            settings: .settings(
+                base: [
                 "CODE_SIGN_STYLE": "Automatic", // 자동 서명
                 "DEVELOPMENT_TEAM": "3MDWMG7Z69" // Apple Developer Team ID
-            ])
+                ],
+                configurations: [
+                    .debug(name: "Debug", xcconfig: "Configs/Debug.xcconfig"),
+                    .release(name: "Release", xcconfig: "Configs/Release.xcconfig")
+                ]
+            )
         ),
         .target(
             name: "ZziikTests",

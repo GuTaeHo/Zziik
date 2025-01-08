@@ -19,5 +19,7 @@ class InfoPlistManager {
     
     var appBuildNumber: String { Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "" }
     
+    var kakaoNativeAppKey: String { Bundle.main.infoDictionary?["KAKAO_NATIVE_APP_KEY"] as? String ?? "" }
+    
     private init() { }
 }

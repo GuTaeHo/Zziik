@@ -12,14 +12,14 @@ import KakaoSDKCommon
 class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidFinishLaunching(_ application: UIApplication) {
         initKakaoSDK()
-        do {
-            try KeychainManager.shared.append(.kakaoNativeKey, value: "92558f4b53ef4b1692cabce8bb7e4711")
-        } catch (let error) {
-            
-        }
+//        do {
+//            try KeychainManager.shared.append(.kakaoNativeKey, value: "92558f4b53ef4b1692cabce8bb7e4711")
+//        } catch (let error) {
+//            
+//        }
     }
     
     private func initKakaoSDK() {
-        KakaoSDK.initSDK(appKey: "92558f4b53ef4b1692cabce8bb7e4711")
+        KakaoSDK.initSDK(appKey: InfoPlistManager.shared.kakaoNativeAppKey)
     }
 }
