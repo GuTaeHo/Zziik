@@ -16,6 +16,7 @@ struct TermsAgreementView: View {
         @Published var isUserInfoAgree: Bool = false
         @Published var isThirdPartyAgree: Bool = false
         @Published var isMarketingAgree: Bool = false
+        @Published var is14Over: Bool = false
     }
     
     @StateObject private var checkState = CheckState()
@@ -47,7 +48,7 @@ struct TermsAgreementView: View {
                     .frame(width: proxy.size.width, alignment: .leading)
                     VStack {
                         HStack(spacing: 8) {
-                            CommonCheckBox(isChecked: $checkState.isAllCheck)
+                            CommonCheckBox(isChecked: .constant(isEnabled()))
                                 .frame(width: 20, height: 20)
                             Text("약관 전체동의")
                                 .font(.custom(.medium500, size: 16))
@@ -59,13 +60,24 @@ struct TermsAgreementView: View {
                         .padding(.init(all: 16))
                         .onTapGesture {
                             checkState.isAllCheck.toggle()
+                            if checkState.isAllCheck == true {
+                                checkState.isServiceAgree = true
+                                checkState.isUserInfoAgree = true
+                                checkState.isThirdPartyAgree = true
+                                checkState.isMarketingAgree = true
+                            } else {
+                                checkState.isServiceAgree = false
+                                checkState.isUserInfoAgree = false
+                                checkState.isThirdPartyAgree = false
+                                checkState.isMarketingAgree = false
+                            }
                         }
                         .onReceive(checkState.objectWillChange) {
-                            if checkState.isServiceAgree, checkState.isUserInfoAgree, checkState.isThirdPartyAgree, checkState.isMarketingAgree {
-                                checkState.isAllCheck = true
-                            } else {
-                                checkState.isAllCheck = false
-                            }
+//                            if checkState.isServiceAgree, checkState.isUserInfoAgree, checkState.isThirdPartyAgree, checkState.isMarketingAgree {
+//                                checkState.isAllCheck = true
+//                            } else {
+//                                checkState.isAllCheck = false
+//                            }
                         }
                     }
                     .padding(.init(top: 16, leading: 16, bottom: 0, trailing: 16))
@@ -155,6 +167,35 @@ struct TermsAgreementView: View {
                 }
                 .frame(width: proxy.size.width)
             }
+            
+            VStack(alignment: .leading, spacing: 24) {
+                Spacer()
+                HStack(alignment: .center, spacing: 4) {
+                    CommonCheckBox(isChecked: $checkState.is14Over)
+                        .frame(width: 20, height: 20)
+                    Text("만 14세 이상의 사용자입니다.")
+                        .font(.custom(.regular400, size: 16))
+                        .foregroundStyle(Color(._212121))
+                    Spacer()
+                }.onTapGesture {
+                    checkState.isMarketingAgree.toggle()
+                }
+                .padding(.init(top: 0, leading: 32, bottom: 0, trailing: 32))
+                CommonButton(title: "가입완료", isEnabled: .constant(isEnabled())) {
+                    
+                }
+                .padding(.init(top: 0, leading: 16, bottom: 0, trailing: 16))
+            }
+        }
+    }
+    
+    func isEnabled() -> Bool {
+        if checkState.isServiceAgree,
+        checkState.isUserInfoAgree,
+        checkState.isThirdPartyAgree {
+            return true
+        } else {
+            return false
         }
     }
 }
