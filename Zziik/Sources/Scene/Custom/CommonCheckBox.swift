@@ -21,15 +21,13 @@ struct CommonCheckBox: View {
                             .resizable()
                             .foregroundStyle(Color(.white))
                             .padding(geometry.size.width / 5)
-                    }.animation(.spring, value: isChecked)
+                    }
             } else {
                 Circle()
                     .stroke(Color(.dcdcdc), lineWidth: 1)
                     .padding(1)
-                    .border(Color(.dcdcdc))
-                    .animation(.spring, value: isChecked)
             }
-        }
+        }.animation(.bouncy, value: isChecked)
     }
 }
 

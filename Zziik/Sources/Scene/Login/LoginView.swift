@@ -137,6 +137,7 @@ struct LoginView: View {
                             switch result {
                             case .success(let response):
                                 // TODO: 로그인 API 호출
+                                path.append(.termsAgreement)
                                 break
                             case .failure(let error):
                                 alert.isShowing = true
