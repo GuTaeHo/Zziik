@@ -16,7 +16,7 @@ let infoPlist: [String: Plist.Value] = [
     "CFBundleShortVersionString": "0.0.1",  // 엡 버전
     "CFBundleVersion": "1", // 빌드 번호
     // 폰트 추가
-    "Fonts provided by application": .array(fonts.map { .string($0) }),
+    "UIAppFonts": .array(fonts.map { .string($0) }),
     // 런치 스크린
     "UILaunchStoryboardName": "LaunchScreen.storyboard",
     // 씬 델리게이트
