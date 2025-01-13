@@ -10,4 +10,5 @@ enum LoginNavigationType {
     case login
     case regist
     case termsAgreement
+    case registComplete
 }

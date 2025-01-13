@@ -277,7 +277,7 @@ struct RegistView: View {
                                     .keyboardType(.numberPad)
                                 Spacer(minLength: 31)
                                 CommonButton(title: "계속하기", isEnabled: .constant(phoneNumber.isEmpty == false)) {
-                                    // TODO: 약관 동의 화면 이동
+                                    path.append(.termsAgreement)
                                 }
                             }
                         }

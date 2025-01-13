@@ -35,8 +35,10 @@ struct TermsAgreementView: View {
     var body: some View {
         GeometryReader { proxy in
             VStack {
-                CommonHeaderView()
-                    .frame(height: 50)
+                CommonHeaderView(leftButtonAction: {
+                    path.removeLast()
+                })
+                .frame(height: 50)
                 ScrollView {
                     VStack(alignment: .leading) {
                         Text("약관에 동의해주세요")
@@ -71,13 +73,6 @@ struct TermsAgreementView: View {
                                 checkState.isThirdPartyAgree = false
                                 checkState.isMarketingAgree = false
                             }
-                        }
-                        .onReceive(checkState.objectWillChange) {
-//                            if checkState.isServiceAgree, checkState.isUserInfoAgree, checkState.isThirdPartyAgree, checkState.isMarketingAgree {
-//                                checkState.isAllCheck = true
-//                            } else {
-//                                checkState.isAllCheck = false
-//                            }
                         }
                     }
                     .padding(.init(top: 16, leading: 16, bottom: 0, trailing: 16))
@@ -170,7 +165,7 @@ struct TermsAgreementView: View {
             
             VStack(alignment: .leading, spacing: 24) {
                 Spacer()
-                HStack(alignment: .center, spacing: 4) {
+                HStack(alignment: .center, spacing: 8) {
                     CommonCheckBox(isChecked: $checkState.is14Over)
                         .frame(width: 20, height: 20)
                     Text("만 14세 이상의 사용자입니다.")
@@ -178,15 +173,15 @@ struct TermsAgreementView: View {
                         .foregroundStyle(Color(._212121))
                     Spacer()
                 }.onTapGesture {
-                    checkState.isMarketingAgree.toggle()
+                    checkState.is14Over.toggle()
                 }
                 .padding(.init(top: 0, leading: 32, bottom: 0, trailing: 32))
                 CommonButton(title: "가입완료", isEnabled: .constant(isEnabled())) {
-                    
+                    path.append(.registComplete)
                 }
                 .padding(.init(top: 0, leading: 16, bottom: 0, trailing: 16))
             }
-        }
+        }.toolbar(.hidden)
     }
     
     func isEnabled() -> Bool {

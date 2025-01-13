@@ -180,6 +180,8 @@ struct LoginView: View {
                     RegistView(path: $path)
                 case .termsAgreement:
                     TermsAgreementView(path: $path)
+                case .registComplete:
+                    RegistCompleteView(path: $path)
                 }
             }
         }
