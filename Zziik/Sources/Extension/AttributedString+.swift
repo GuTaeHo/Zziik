@@ -1,6 +1,6 @@
 //
 //  AttributedString+.swift
-//  blossom
+//  Zziik
 //
 //  Created by 구태호 on 12/28/23.
 //

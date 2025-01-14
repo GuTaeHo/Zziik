@@ -1,6 +1,6 @@
 //
 //  CommonResizingScrollView.swift
-//  blossom
+//  Zziik
 //
 //  Created by 구태호 on 11/19/24.
 //

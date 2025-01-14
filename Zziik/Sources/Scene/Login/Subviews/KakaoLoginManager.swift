@@ -1,6 +1,6 @@
 //
 //  KakaoLoginManager.swift
-//  blossom
+//  Zziik
 //
 //  Created by 구태호 on 2022/07/01.
 //

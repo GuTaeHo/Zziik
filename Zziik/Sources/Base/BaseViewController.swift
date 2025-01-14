@@ -1,6 +1,6 @@
 //
 //  BaseViewController.swift
-//  blossom
+//  Zziik
 //
 //  Created by 구태호 on 2022/06/25.
 //

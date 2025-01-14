@@ -1,6 +1,6 @@
 //
 //  UIStackView.swift
-//  blossom
+//  Zziik
 //
 //  Created by 구태호 on 12/25/23.
 //
