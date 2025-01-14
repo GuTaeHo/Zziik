@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct TermsAgreementView: View {
-    @Binding var path: [LoginNavigationType]
+    @Binding var path: [LoginCoordinator.Destination]
     
     class CheckState: ObservableObject {
         @Published var isAllCheck: Bool = false

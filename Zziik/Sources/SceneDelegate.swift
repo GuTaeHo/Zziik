@@ -31,8 +31,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     private func initLayout() {
-        let loginView = LoginView()
-        let hostingVC = UIHostingController(rootView: loginView)
+        let coordinator = LoginCoordinator()
+        let hostingVC = UIHostingController(rootView: coordinator)
         let viewController = UIViewController().then {
             $0.addChild(hostingVC)
             $0.view.addSubview(hostingVC.view)
