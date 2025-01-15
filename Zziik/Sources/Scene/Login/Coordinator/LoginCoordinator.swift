@@ -13,6 +13,7 @@ struct LoginCoordinator: View {
         case regist
         case termsAgreement
         case registComplete
+        case findPassword
     }
     
     @State private var path: [LoginCoordinator.Destination] = []
@@ -21,16 +22,21 @@ struct LoginCoordinator: View {
         NavigationStack(path: $path) {
             LoginView(path: $path)
                 .navigationDestination(for: Destination.self) { dest in
-                    switch dest {
-                    case .login:
-                        LoginView(path: $path)
-                    case .regist:
-                        RegistView(path: $path)
-                    case .termsAgreement:
-                        TermsAgreementView(path: $path)
-                    case .registComplete:
-                        RegistCompleteView(path: $path)
+                    Group {
+                        switch dest {
+                        case .login:
+                            LoginView(path: $path)
+                        case .regist:
+                            RegistView(path: $path)
+                        case .termsAgreement:
+                            TermsAgreementView(path: $path)
+                        case .registComplete:
+                            RegistCompleteView(path: $path)
+                        case .findPassword:
+                            FindPasswordView(path: $path)
+                        }
                     }
+                    .toolbar(.hidden)
                 }
         }
     }

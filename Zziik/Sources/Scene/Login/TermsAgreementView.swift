@@ -181,7 +181,7 @@ struct TermsAgreementView: View {
                 }
                 .padding(.init(top: 0, leading: 16, bottom: 0, trailing: 16))
             }
-        }.toolbar(.hidden)
+        }
     }
     
     func isEnabled() -> Bool {

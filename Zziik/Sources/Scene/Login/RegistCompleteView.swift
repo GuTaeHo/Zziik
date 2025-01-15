@@ -42,7 +42,7 @@ struct RegistCompleteView: View {
                 .clipShape(.rect(cornerRadius: 8))
             }
             .frame(width: proxy.size.width)
-        }.toolbar(.hidden)
+        }
     }
 }
 

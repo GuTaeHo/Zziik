@@ -82,7 +82,7 @@ struct FindPasswordView: View {
     @State var newPasswordAlert: String = ""
     @State var confirmPassword: String = ""
     
-    @State var progress: Progress = .newPassword
+    @State var progress: Progress = .email
     @FocusState var focused: Progress?
     
     var body: some View {
@@ -95,7 +95,7 @@ struct FindPasswordView: View {
                         path.removeLast()
                     }
                 })
-                .frame(width: .infinity, height: 50)
+                .frame(height: 50)
                 VStack(alignment: .leading) {
                     Text(progress.title)
                         .font(.custom(.semiBold600, size: 24))
@@ -114,7 +114,7 @@ struct FindPasswordView: View {
                         Button(action: {
                             if emailValidation() {
                                 if progress == .email {
-                                    // TODO: 인증번호 전송 API 호출
+                                    // TODO: 인증번호 전송 API 호출, 실패 시 스낵바 표시
                                 } else {
                                     // TODO: 인증번호 전송 API 호출 & 카운터 초기화
                                     certNumber.removeAll()

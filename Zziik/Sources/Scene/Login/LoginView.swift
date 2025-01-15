@@ -101,7 +101,9 @@ struct LoginView: View {
                                     Divider()
                                         .background(Color.init(.dcdcdc))
                                         .frame(width: 1, height: 10)
-                                    Button("비밀번호 찾기") { }
+                                    Button("비밀번호 찾기") {
+                                        path.append(.findPassword)
+                                    }
                                         .padding(8)
                                         .foregroundStyle(Color.init(._212121))
                                         .font(.custom(.regular400, size: 14))
