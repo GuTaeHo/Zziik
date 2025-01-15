@@ -128,7 +128,7 @@ struct RegistView: View {
     
     @Binding var path: [LoginCoordinator.Destination]
     
-    @State var progress: Progress = .birthday
+    @State var progress: Progress = .password
     @FocusState var focused: Progress?
     
     @State var email: String = ""
@@ -287,10 +287,6 @@ struct RegistView: View {
                 }
             }
         }.toolbar(.hidden)
-    }
-    
-    func emailValidation() -> Bool {
-        return true
     }
     
     func nameValidation() -> Bool {
