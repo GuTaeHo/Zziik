@@ -8,9 +8,10 @@
 import SwiftUI
 
 struct LoginCoordinator: View {
-    enum Destination {
+    enum Destination: Hashable {
         case login
         case regist
+        case addressSearch(url: String)
         case termsAgreement
         case registComplete
         case findPassword
@@ -28,6 +29,8 @@ struct LoginCoordinator: View {
                             LoginView(path: $path)
                         case .regist:
                             RegistView(path: $path)
+                        case .addressSearch(let url):
+                            AddressSearchWebView(path: $path, url: .constant(url))
                         case .termsAgreement:
                             TermsAgreementView(path: $path)
                         case .registComplete:

@@ -128,7 +128,7 @@ struct RegistView: View {
     
     @Binding var path: [LoginCoordinator.Destination]
     
-    @State var progress: Progress = .email
+    @State var progress: Progress = .address
     @FocusState var focused: Progress?
     
     @State var email: String = ""
@@ -252,7 +252,21 @@ struct RegistView: View {
                                     }
                                 }
                             case .address:
-                                UnderlineTextField(placeholder: "우편번호", text: $postNumber)
+                                HStack(spacing: 12) {
+                                    UnderlineTextField(placeholder: "우편번호", text: $postNumber)
+                                    Button(action: {
+                                        path.append(.addressSearch(url: "https://gutaeho.github.io/TempKakaoPost/"))
+                                    }) {
+                                        Text("주소검색")
+                                            .font(.custom(.regular400, size: 14))
+                                            .foregroundStyle(Color(._212121))
+                                            .padding()
+                                    }
+                                    .overlay {
+                                        RoundedRectangle(cornerRadius: 4)
+                                            .stroke(Color(.dcdcdc), lineWidth: 1)
+                                    }
+                                }
                                 Spacer(minLength: 16)
                                 UnderlineTextField(placeholder: "주소", text: $address)
                                 Spacer(minLength: 16)
