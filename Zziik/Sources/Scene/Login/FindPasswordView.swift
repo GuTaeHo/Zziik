@@ -164,13 +164,13 @@ struct FindPasswordView: View {
             }
         }
         .onDisappear {
-            timerCancellable?.cancel()
+            stopTimer()
         }
         .onReceive(timer.autoconnect()) { _ in
             if count > 0 {
                 count -= 1
             } else {
-                timerCancellable?.cancel()
+                stopTimer()
             }
         }
     }
@@ -189,14 +189,6 @@ struct FindPasswordView: View {
                 Text(formatTime(from: count))
                     .font(.custom(.regular400, size: 12))
                     .foregroundStyle(Color(.e90202))
-                    .onChange(of: count) { count  in
-                        if count <= 0 {
-                            stopTimer()
-                            if progress == .certNumber {
-                                progress = .email
-                            }
-                        }
-                    }
             }
         }
         .keyboardType(.decimalPad)
@@ -205,6 +197,7 @@ struct FindPasswordView: View {
                      isEnabled: .constant(certNumberValidation())) {
             // TODO: 인증 번호 확인 API 호출 및 성공 시 .newPassword
             if certNumberValidation() {
+                stopTimer()
                 progress = .newPassword
             }
         }
@@ -298,6 +291,7 @@ struct FindPasswordView: View {
     }
     
     private func startTimer() {
+        stopTimer()
         count = 180
         isRunning = true
         timerCancellable = timer
