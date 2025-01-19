@@ -50,7 +50,7 @@ struct TermsAgreementView: View {
                     .frame(width: proxy.size.width, alignment: .leading)
                     VStack {
                         HStack(spacing: 8) {
-                            CommonCheckBox(isChecked: .constant(isEnabled()))
+                            CommonCheckBox(isChecked: .constant(isAllChecked()))
                                 .frame(width: 20, height: 20)
                             Text("약관 전체동의")
                                 .font(.custom(.medium500, size: 16))
@@ -176,7 +176,7 @@ struct TermsAgreementView: View {
                     checkState.is14Over.toggle()
                 }
                 .padding(.init(top: 0, leading: 32, bottom: 0, trailing: 32))
-                CommonButton(title: "가입완료", isEnabled: .constant(isEnabled())) {
+                CommonButton(title: "가입완료", isEnabled: .constant(isNextable())) {
                     path.append(.registComplete)
                 }
                 .padding(.init(top: 0, leading: 16, bottom: 0, trailing: 16))
@@ -184,7 +184,7 @@ struct TermsAgreementView: View {
         }
     }
     
-    func isEnabled() -> Bool {
+    func isAllChecked() -> Bool {
         if checkState.isServiceAgree,
         checkState.isUserInfoAgree,
         checkState.isThirdPartyAgree {
@@ -192,6 +192,10 @@ struct TermsAgreementView: View {
         } else {
             return false
         }
+    }
+    
+    func isNextable() -> Bool {
+        isAllChecked() && checkState.is14Over
     }
 }
 
