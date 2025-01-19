@@ -42,6 +42,7 @@ struct CommonToast: View {
                     Text(message)
                         .font(.custom(.regular400, size: 16))
                         .foregroundStyle(Color(.white))
+                    Spacer()
                     if let buttonConfiguration {
                         Button(action: {
                             buttonConfiguration.action?()
@@ -58,6 +59,6 @@ struct CommonToast: View {
 }
 
 #Preview {
-    CommonToast(type: .positive, message: "안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕!", buttonConfiguration: .init(title: "로봇"))
+    CommonToast(type: .positive, message: "안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕안녕!", buttonConfiguration: .init(title: "로봇"))
         .frame(width: .infinity, height: 200, alignment: .center)
 }

@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Then
+import Combine
 
 
 struct FindPasswordView: View {
@@ -85,7 +86,15 @@ struct FindPasswordView: View {
     @State var progress: Progress = .email
     @FocusState var focused: Progress?
     
+    @State var isShowToast: Bool = false
+    
+    @State var count: Int = 0
+    var timer = Timer.publish(every: 1.0, on: .main, in: .common)
+    @State private var timerCancellable: Cancellable? = nil
+    @State private var isRunning = false
+    
     var body: some View {
+        ZStack {
             VStack {
                 CommonHeaderView(leftButtonImage: .constant(progress.headerLeftButtonImage),
                                  leftButtonAction: {
@@ -114,6 +123,7 @@ struct FindPasswordView: View {
                         Button(action: {
                             if emailValidation() {
                                 if progress == .email {
+                                    requestSendEmail()
                                     // TODO: 인증번호 전송 API 호출, 실패 시 스낵바 표시
                                 } else {
                                     // TODO: 인증번호 전송 API 호출 & 카운터 초기화
@@ -148,6 +158,21 @@ struct FindPasswordView: View {
                 .padding(.init(top: 30, leading: 26, bottom: 30, trailing: 26))
             }
             .ignoresSafeArea(.keyboard, edges: .bottom)
+            VStack {
+                Spacer()
+                toastView
+            }
+        }
+        .onDisappear {
+            timerCancellable?.cancel()
+        }
+        .onReceive(timer.autoconnect()) { _ in
+            if count > 0 {
+                count -= 1
+            } else {
+                timerCancellable?.cancel()
+            }
+        }
     }
     
     @ViewBuilder
@@ -155,14 +180,33 @@ struct FindPasswordView: View {
         Spacer().frame(height: 16)
         UnderlineTextField(placeholder: "인증번호 입력",
                            text: $certNumber,
+                           isForceDeleteInvisiable: true,
                            maxTextCount: Progress.certNumber.maxTextCount,
                            evaluateType: .email)
+        .overlay {
+            HStack {
+                Spacer()
+                Text(formatTime(from: count))
+                    .font(.custom(.regular400, size: 12))
+                    .foregroundStyle(Color(.e90202))
+                    .onChange(of: count) { count  in
+                        if count <= 0 {
+                            stopTimer()
+                            if progress == .certNumber {
+                                progress = .email
+                            }
+                        }
+                    }
+            }
+        }
         .keyboardType(.decimalPad)
         Spacer().frame(height: 30)
         CommonButton(title: progress.passwordButtonTitle,
                      isEnabled: .constant(certNumberValidation())) {
             // TODO: 인증 번호 확인 API 호출 및 성공 시 .newPassword
-            progress = .newPassword
+            if certNumberValidation() {
+                progress = .newPassword
+            }
         }
     }
     
@@ -188,6 +232,27 @@ struct FindPasswordView: View {
         CommonButton(title: progress.passwordButtonTitle, isEnabled: .constant(passwordValidation())) {
             if passwordValidation() {
                 // TODO: 비밀번호 재설정 API 호출, 성공 시 비밀번호 변경 완료 화면 이동
+            }
+        }
+    }
+    
+    @ViewBuilder
+    var toastView: some View {
+        if isShowToast {
+            withAnimation {
+                CommonToast(type: .positive, message: "이메일로 인증번호를 전송했어요")
+                    .transition(.opacity)
+                    .onAppear {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                            withAnimation {
+                                isShowToast = false
+                            }
+                        }
+                    }
+                    .frame(maxHeight: 50)
+                    .padding(.init(horizontal: 16))
+                    .transition(.move(edge: .bottom))
+                    .zIndex(1)
             }
         }
     }
@@ -218,6 +283,41 @@ struct FindPasswordView: View {
         }
         
         return true
+    }
+    
+    private func requestSendEmail() {
+        startTimer()
+        isShowToast = true
+        progress = .certNumber
+    }
+    
+    func formatTime(from minutes: Int) -> String {
+        let hours = minutes / 60
+        let minutesRemaining = minutes % 60
+        return String(format: "%d:%02d", hours, minutesRemaining)
+    }
+    
+    private func startTimer() {
+        count = 180
+        isRunning = true
+        timerCancellable = timer
+            .autoconnect()
+            .sink { _ in
+                if count > 0 {
+                    count -= 1
+                } else {
+                    // 타이머가 끝나면 뷰를 숨기거나 다른 동작을 수행
+                    count = 0
+                    isRunning = false
+                    timerCancellable?.cancel()
+                }
+            }
+    }
+
+    private func stopTimer() {
+        timerCancellable?.cancel()
+        timerCancellable = nil
+        isRunning = false
     }
 }
 

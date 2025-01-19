@@ -17,16 +17,18 @@ struct UnderlineTextField: View {
     @Binding var alertText: String
     private var maxTextCount: Int
     @State private var isDeleteVisiable: Bool
+    private var isForceDeleteInvisiable: Bool
     @FocusState private var isFocused: Bool
     /// 정규식 체크 타입
     private var evaluateType: RegExpUtil.RegCase?
     
     
-    init(placeholder: String, text: Binding<String>, alertText: Binding<String> = .constant(""), isDeleteVisiable: Bool = false, maxTextCount: Int = .max, evaluateType: RegExpUtil.RegCase? = nil) {
+    init(placeholder: String, text: Binding<String>, alertText: Binding<String> = .constant(""), isDeleteVisiable: Bool = false, isForceDeleteInvisiable: Bool = false, maxTextCount: Int = .max, evaluateType: RegExpUtil.RegCase? = nil) {
         self.placeholder = placeholder
         self._text = text
         self._alertText = alertText
         self.isDeleteVisiable = isDeleteVisiable
+        self.isForceDeleteInvisiable = isForceDeleteInvisiable
         self.maxTextCount = maxTextCount
         self.evaluateType = evaluateType
     }
@@ -46,14 +48,14 @@ struct UnderlineTextField: View {
                         }
                         if text.isEmpty {
                             isDeleteVisiable = false
-                        } else {
+                        } else if isForceDeleteInvisiable == false {
                             isDeleteVisiable = true
                         }
                     }
                     .onChange(of: isFocused) { isFocused in
                         if text.isEmpty {
                             isDeleteVisiable = false
-                        } else {
+                        } else if isForceDeleteInvisiable == false {
                             isDeleteVisiable = true
                         }
                     }
