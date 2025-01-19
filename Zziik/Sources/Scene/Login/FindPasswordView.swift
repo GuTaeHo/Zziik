@@ -122,12 +122,11 @@ struct FindPasswordView: View {
                             }
                         }) {
                             Text(progress.certButtonTitle)
-                                .padding()
                                 .font(.custom(.regular400, size: 14))
                                 .foregroundStyle(Color(._212121))
-                                .frame(width: .infinity, height: 50)
+                                .frame(maxWidth: .infinity)
+                                .padding()
                         }
-                        .frame(maxWidth: .infinity)
                         .clipShape(.rect(cornerRadius: 8))
                         .overlay {
                             RoundedRectangle(cornerRadius: 8)
