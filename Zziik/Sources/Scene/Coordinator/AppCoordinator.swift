@@ -1,5 +1,5 @@
 //
-//  LoginCoordinator.swift
+//  AppCoordinator.swift
 //  Zziik
 //
 //  Created by 구태호 on 1/14/25.
@@ -7,7 +7,8 @@
 
 import SwiftUI
 
-struct LoginCoordinator: View {
+struct AppCoordinator: View {
+    
     enum Destination: Hashable {
         case login
         case regist
@@ -15,9 +16,11 @@ struct LoginCoordinator: View {
         case termsAgreement
         case registComplete
         case findPassword
+        
+        case main(tab: MainTabView.MainTab)
     }
     
-    @State private var path: [LoginCoordinator.Destination] = []
+    @State private var path: [AppCoordinator.Destination] = [.main(tab: .home(tab: .shipping))]
     
     var body: some View {
         NavigationStack(path: $path) {
@@ -37,6 +40,8 @@ struct LoginCoordinator: View {
                             RegistCompleteView(path: $path)
                         case .findPassword:
                             FindPasswordView(path: $path)
+                        case .main(let tab):
+                            MainTabView(path: $path, tab: tab)
                         }
                     }
                     .toolbar(.hidden)

@@ -126,7 +126,7 @@ struct RegistView: View {
     
     private let emails = ["@naver.com", "@gmail.com", "@hanmail.com", "@nate.com", "@daum.net"]
     
-    @Binding var path: [LoginCoordinator.Destination]
+    @Binding var path: [AppCoordinator.Destination]
     
     @State var progress: Progress = .address
     @FocusState var focused: Progress?

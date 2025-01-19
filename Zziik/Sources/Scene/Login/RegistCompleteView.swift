@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct RegistCompleteView: View {
-    @Binding var path: [LoginCoordinator.Destination]
+    @Binding var path: [AppCoordinator.Destination]
     
     var body: some View {
         GeometryReader { proxy in

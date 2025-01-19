@@ -74,7 +74,7 @@ struct FindPasswordView: View {
     }
     
     
-    @Binding var path: [LoginCoordinator.Destination]
+    @Binding var path: [AppCoordinator.Destination]
     
     @State var email: String = ""
     @State var emailAlert: String = ""

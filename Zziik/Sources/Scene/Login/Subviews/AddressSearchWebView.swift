@@ -13,7 +13,7 @@ import Then
 
 struct AddressSearchWebView: View, AddressSearchWebUIKitView.WebViewMessageDelegate {
     
-    @Binding var path: [LoginCoordinator.Destination]
+    @Binding var path: [AppCoordinator.Destination]
     @Binding var url: String
     @State var errorReason: String = ""
     

@@ -18,7 +18,7 @@ struct LoginView: View {
     @State private var isLoginEnabled: Bool = false
     @State private var invalidReason: String = ""
     
-    @Binding var path: [LoginCoordinator.Destination]
+    @Binding var path: [AppCoordinator.Destination]
     
     @StateObject private var alert: CommonAlert = .init(isShowing: false)
     
@@ -79,7 +79,9 @@ struct LoginView: View {
                             
                             VStack(spacing: 16) {
                                 CommonButton(title: "로그인", isEnabled: $isLoginEnabled) {
-                                    validation(isShowAlert: true)
+                                    if isLoginEnabled {
+                                        path.append(.main(tab: .home(tab: .shipping)))
+                                    }
                                 }.onAppear {
                                     validation(isShowAlert: false)
                                 }
