@@ -12,25 +12,21 @@ import Then
 
 
 struct AddressSearchWebView: View, AddressSearchWebUIKitView.WebViewMessageDelegate {
-    @EnvironmentObject var coordinator: Coordinator
-    @Binding var url: String
-//    var address: AddressSearchWebUIKitView.Address {
-//        didSet {
-//            
-//        }
-//    }
-//    @Binding var address: AddressSearchWebUIKitView.Address?
+    @Environment(\.dismiss) var dismiss
+    @Binding var zoneCode: String
+    @Binding var addressDetail: String
     @State var errorReason: String = ""
+    
     
     var body: some View {
         VStack {
-            CommonHeaderView(leftButtonImage: .constant(.icHeaderBack24),
+            CommonHeaderView(leftButtonImage: .constant(.icHeaderClose24),
                              title: .constant("주소찾기"),
                              leftButtonAction: {
-                coordinator.pop()
+                dismiss()
             })
             .frame(height: 50)
-            if let url = URL(string: url) {
+            if let url = URL(string: "https://gutaeho.github.io/TempKakaoPost/") {
                 AddressSearchWebUIKitView(url: .constant(url), messageHandler: self)
             } else {
                 Text(errorReason)
@@ -39,7 +35,13 @@ struct AddressSearchWebView: View, AddressSearchWebUIKitView.WebViewMessageDeleg
     }
     
     func didReceive(address: AddressSearchWebUIKitView.Address) {
-//        self.address = address
+        guard
+            let zonecode = address.zonecode,
+            let roadAddress = address.roadAddress
+        else { return }
+        self.zoneCode = zonecode
+        self.addressDetail = "\(roadAddress)"
+        self.dismiss()
     }
     
     func failure(error: Error) {
@@ -103,5 +105,5 @@ struct AddressSearchWebUIKitView: UIViewRepresentable {
 
 
 #Preview {
-    AddressSearchWebView(url: .constant("https://gimgui.com/"))
+    AddressSearchWebView(zoneCode: .constant(""), addressDetail: .constant(""))
 }

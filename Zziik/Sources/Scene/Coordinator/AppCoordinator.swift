@@ -12,7 +12,6 @@ final class Coordinator: ObservableObject {
     enum Destination: Hashable {
         case login
         case regist
-        //        case addressSearch(url: String)
         case termsAgreement
         case registComplete
         case findPassword
@@ -35,7 +34,7 @@ final class Coordinator: ObservableObject {
         guard path.count - 1 >= depth else { return }
         path.removeLast(depth)
     }
-     
+    
     func popToRoot() {
         path.removeAll()
     }
@@ -66,8 +65,6 @@ struct AppCoordinator: View {
                             LoginView()
                         case .regist:
                             RegistView()
-                            //                        case .addressSearch(let url):
-                            //                            AddressSearchWebView(path: $path, url: .constant(url))
                         case .termsAgreement:
                             TermsAgreementView()
                         case .registComplete:

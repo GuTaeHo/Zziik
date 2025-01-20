@@ -139,7 +139,7 @@ struct LoginView: View {
                         switch result {
                         case .success(let response):
                             // TODO: 로그인 API 호출
-                            coordinator.push(destination: .termsAgreement)
+                            coordinator.push(destination: .main(tab: .favorite))
                             break
                         case .failure(let error):
                             alert.isShowing = true
@@ -155,6 +155,7 @@ struct LoginView: View {
                         switch result {
                         case .success(let response):
                             // TODO: 로그인 API 호출
+                            coordinator.push(destination: .main(tab: .deliveryList))
                             break
                         case .failure(let error):
                             alert.isShowing = true
