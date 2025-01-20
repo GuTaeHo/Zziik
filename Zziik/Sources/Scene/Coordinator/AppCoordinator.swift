@@ -24,7 +24,7 @@ struct AppCoordinator: View {
     
     var body: some View {
         NavigationStack(path: $path) {
-            LoginView(path: $path)
+            SplashView(path: $path)
                 .navigationDestination(for: Destination.self) { dest in
                     Group {
                         switch dest {
