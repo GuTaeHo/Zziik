@@ -15,6 +15,12 @@ struct AddressSearchWebView: View, AddressSearchWebUIKitView.WebViewMessageDeleg
     
     @Binding var path: [AppCoordinator.Destination]
     @Binding var url: String
+//    var address: AddressSearchWebUIKitView.Address {
+//        didSet {
+//            
+//        }
+//    }
+//    @Binding var address: AddressSearchWebUIKitView.Address?
     @State var errorReason: String = ""
     
     var body: some View {
@@ -34,8 +40,7 @@ struct AddressSearchWebView: View, AddressSearchWebUIKitView.WebViewMessageDeleg
     }
     
     func didReceive(address: AddressSearchWebUIKitView.Address) {
-        // TODO: 주소 이전화면으로 전달
-        
+//        self.address = address
     }
     
     func failure(error: Error) {

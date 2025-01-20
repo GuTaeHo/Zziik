@@ -104,6 +104,5 @@ struct UnderlineTextField: View {
 
 
 #Preview {
-    @State var text = "텍스트 작성중!"
-    UnderlineTextField(placeholder: "input your text", text: $text, alertText: .constant("잘못된 텍스트"))
+    UnderlineTextField(placeholder: "input your text", text: .constant("텍스트 작성중!"), alertText: .constant("잘못된 텍스트"))
 }

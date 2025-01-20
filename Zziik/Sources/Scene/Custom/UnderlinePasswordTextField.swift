@@ -110,6 +110,5 @@ struct UnderlinePasswordTextField: View {
 
 
 #Preview {
-    @State var text = "안녕!"
-    UnderlinePasswordTextField(placeholder: "input your text", text: $text)
+    UnderlinePasswordTextField(placeholder: "input your text", text: .constant("안녕!"))
 }
