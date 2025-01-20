@@ -18,7 +18,7 @@ struct LoginView: View {
     @State private var isLoginEnabled: Bool = false
     @State private var invalidReason: String = ""
     
-    @Binding var path: [AppCoordinator.Destination]
+    @EnvironmentObject var coordinator: Coordinator
     
     @StateObject private var alert: CommonAlert = .init(isShowing: false)
     
@@ -80,7 +80,7 @@ struct LoginView: View {
                             VStack(spacing: 16) {
                                 CommonButton(title: "로그인", isEnabled: $isLoginEnabled) {
                                     if isLoginEnabled {
-                                        path.append(.main(tab: .home(tab: .shipping)))
+                                        coordinator.push(destination: .main(tab: .home(tab: .shipping)))
                                     }
                                 }.onAppear {
                                     validation(isShowAlert: false)
@@ -88,7 +88,7 @@ struct LoginView: View {
                                 
                                 HStack(spacing: 0) {
                                     Button("회원가입") {
-                                        path.append(.regist)
+                                        coordinator.push(destination: .regist)
                                     }
                                     .padding(8)
                                     .foregroundStyle(Color(._212121))
@@ -104,7 +104,7 @@ struct LoginView: View {
                                         .background(Color.init(.dcdcdc))
                                         .frame(width: 1, height: 10)
                                     Button("비밀번호 찾기") {
-                                        path.append(.findPassword)
+                                        coordinator.push(destination: .findPassword)
                                     }
                                         .padding(8)
                                         .foregroundStyle(Color.init(._212121))
@@ -139,7 +139,7 @@ struct LoginView: View {
                         switch result {
                         case .success(let response):
                             // TODO: 로그인 API 호출
-                            path.append(.termsAgreement)
+                            coordinator.push(destination: .termsAgreement)
                             break
                         case .failure(let error):
                             alert.isShowing = true
@@ -202,5 +202,5 @@ struct LoginView: View {
 }
 
 #Preview {
-    LoginView(path: .constant([.login]))
+    LoginView()
 }

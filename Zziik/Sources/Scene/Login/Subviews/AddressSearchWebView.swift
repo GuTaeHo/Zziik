@@ -12,8 +12,7 @@ import Then
 
 
 struct AddressSearchWebView: View, AddressSearchWebUIKitView.WebViewMessageDelegate {
-    
-    @Binding var path: [AppCoordinator.Destination]
+    @EnvironmentObject var coordinator: Coordinator
     @Binding var url: String
 //    var address: AddressSearchWebUIKitView.Address {
 //        didSet {
@@ -28,7 +27,7 @@ struct AddressSearchWebView: View, AddressSearchWebUIKitView.WebViewMessageDeleg
             CommonHeaderView(leftButtonImage: .constant(.icHeaderBack24),
                              title: .constant("주소찾기"),
                              leftButtonAction: {
-                path.removeLast()
+                coordinator.pop()
             })
             .frame(height: 50)
             if let url = URL(string: url) {
@@ -104,5 +103,5 @@ struct AddressSearchWebUIKitView: UIViewRepresentable {
 
 
 #Preview {
-    AddressSearchWebView(path: .constant([.regist]), url: .constant("https://gimgui.com/"))
+    AddressSearchWebView(url: .constant("https://gimgui.com/"))
 }

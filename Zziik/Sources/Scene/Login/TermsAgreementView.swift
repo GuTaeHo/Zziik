@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct TermsAgreementView: View {
-    @Binding var path: [AppCoordinator.Destination]
+    @EnvironmentObject var coordinator: Coordinator
     
     class CheckState: ObservableObject {
         @Published var isAllCheck: Bool = false
@@ -36,7 +36,7 @@ struct TermsAgreementView: View {
         GeometryReader { proxy in
             VStack {
                 CommonHeaderView(leftButtonAction: {
-                    path.removeLast()
+                    coordinator.pop()
                 })
                 .frame(height: 50)
                 ScrollView {
@@ -177,7 +177,7 @@ struct TermsAgreementView: View {
                 }
                 .padding(.init(top: 0, leading: 32, bottom: 0, trailing: 32))
                 CommonButton(title: "가입완료", isEnabled: .constant(isNextable())) {
-                    path.append(.registComplete)
+                    coordinator.push(destination: .registComplete)
                 }
                 .padding(.init(top: 0, leading: 16, bottom: 0, trailing: 16))
             }
@@ -200,5 +200,5 @@ struct TermsAgreementView: View {
 }
 
 #Preview {
-    TermsAgreementView(path: .constant([.termsAgreement]))
+    TermsAgreementView()
 }

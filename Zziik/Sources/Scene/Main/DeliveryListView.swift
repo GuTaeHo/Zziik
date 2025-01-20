@@ -9,9 +9,21 @@ import SwiftUI
 
 
 struct DeliveryListView: View {
-    @Binding var path: [AppCoordinator.Destination]
+    @EnvironmentObject var coordinator: Coordinator
     
     var body: some View {
-        Text("DeliveryListView")
+        VStack {
+            Text("DeliveryListView")
+            Button(action: {
+                coordinator.switchTo(destination: .login)
+            }) {
+                Text("로그아웃")
+            }
+        }
     }
+}
+
+#Preview {
+    DeliveryListView()
+        .environmentObject(Coordinator())
 }

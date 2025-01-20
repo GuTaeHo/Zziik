@@ -126,7 +126,7 @@ struct RegistView: View {
     
     private let emails = ["@naver.com", "@gmail.com", "@hanmail.com", "@nate.com", "@daum.net"]
     
-    @Binding var path: [AppCoordinator.Destination]
+    @EnvironmentObject var coordinator: Coordinator
     
     @State var progress: Progress = .address
     @FocusState var focused: Progress?
@@ -154,13 +154,13 @@ struct RegistView: View {
                     if let previous = progress.previous {
                         progress = previous
                     } else {
-                        path.removeLast()
+                        coordinator.pop()
                     }
                 } rightButtonAction: {
                     if let next = progress.next {
                         progress = next
                     } else {
-                        path.append(.termsAgreement)
+                        coordinator.push(destination: .termsAgreement)
                     }
                 }
                     .frame(height: 50)
@@ -254,13 +254,8 @@ struct RegistView: View {
                                 HStack(spacing: 12) {
                                     UnderlineTextField(placeholder: "우편번호", text: $postNumber)
                                     Button(action: {
-                                        NavigationLink(destination: AddressSearchWebView(path: $path, url: .constant("https://gutaeho.github.io/TempKakaoPost/"))) {
-                                            Text("Go to Detail View")
-                                                .padding()
-                                                .background(Color.blue)
-                                                .foregroundColor(.white)
-                                                .cornerRadius(8)
-                                        }
+                                        // TODO: 우편번호 화면 이동
+                                        coordinator.push(destination: .termsAgreement)
                                     }) {
                                         Text("주소검색")
                                             .font(.custom(.regular400, size: 14))
@@ -296,7 +291,7 @@ struct RegistView: View {
                                     .keyboardType(.numberPad)
                                 Spacer(minLength: 31)
                                 CommonButton(title: "계속하기", isEnabled: .constant(phoneNumber.isEmpty == false)) {
-                                    path.append(.termsAgreement)
+                                    coordinator.push(destination: .termsAgreement)
                                 }
                             }
                         }
@@ -340,5 +335,5 @@ struct RegistView: View {
 }
 
 #Preview {
-    RegistView(path: .constant([.login]))
+    RegistView()
 }

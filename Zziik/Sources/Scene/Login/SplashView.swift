@@ -9,7 +9,7 @@ import SwiftUI
 import Then
 
 struct SplashView: View {
-    @Binding var path: [AppCoordinator.Destination]
+    @EnvironmentObject var coordinator: Coordinator
     @State private var rotation: Double = 90
     @State private var scale: CGFloat = 2.0
 
@@ -28,12 +28,15 @@ struct SplashView: View {
                             .padding(32)
                             .scaleEffect(scale)
                             .rotationEffect(.degrees(rotation))
-                            .animation(.spring(duration: 0.6), value: rotation)
+                            .animation(.spring(duration: 0.5), value: rotation)
                     }
-                    .animation(.spring(duration: 1), value: scale)
+                    .animation(.spring(duration: 0.8), value: scale)
                     .onAppear {
                         rotation = 0
                         scale = 1.0
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                            coordinator.push(destination: .login)
+                        }
                     }
                     .onTapGesture {
                         rotation += 90
@@ -47,5 +50,6 @@ struct SplashView: View {
 }
 
 #Preview {
-    SplashView(path: .constant([.login]))
+    SplashView()
+        .environmentObject(Coordinator())
 }

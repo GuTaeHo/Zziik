@@ -74,7 +74,7 @@ struct FindPasswordView: View {
     }
     
     
-    @Binding var path: [AppCoordinator.Destination]
+    @EnvironmentObject var coordinator: Coordinator
     
     @State var email: String = ""
     @State var emailAlert: String = ""
@@ -101,7 +101,7 @@ struct FindPasswordView: View {
                     if let previous = progress.previous {
                         progress = previous
                     } else {
-                        path.removeLast()
+                        coordinator.pop()
                     }
                 })
                 .frame(height: 50)
@@ -316,5 +316,5 @@ struct FindPasswordView: View {
 }
 
 #Preview {
-    FindPasswordView(path: .constant([.termsAgreement, .regist]))
+    FindPasswordView()
 }

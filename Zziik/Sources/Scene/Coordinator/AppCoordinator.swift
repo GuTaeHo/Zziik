@@ -7,12 +7,12 @@
 
 import SwiftUI
 
-struct AppCoordinator: View {
-    
+@MainActor
+final class Coordinator: ObservableObject {
     enum Destination: Hashable {
         case login
         case regist
-//        case addressSearch(url: String)
+        //        case addressSearch(url: String)
         case termsAgreement
         case registComplete
         case findPassword
@@ -20,30 +20,65 @@ struct AppCoordinator: View {
         case main(tab: MainTabView.MainTab)
     }
     
-    @State private var path: [AppCoordinator.Destination] = []
+    @Published var path: [Destination] = [.registComplete]
+    public init() { }
+    
+    func push(destination: Destination) {
+        path.append(destination)
+    }
+    
+    func pop() {
+        path.removeLast()
+    }
+    
+    func pop(depth: Int) {
+        guard path.count - 1 >= depth else { return }
+        path.removeLast(depth)
+    }
+     
+    func popToRoot() {
+        path.removeAll()
+    }
+    
+    func changeContext(destination: Destination) {
+        path.removeAll()
+        path.append(destination)
+    }
+    
+    func switchTo(destination: Destination) {
+        guard !path.isEmpty else { return }
+        let lastIndex = path.count - 1
+        path[lastIndex] = destination
+    }
+}
+
+struct AppCoordinator: View {
+    @StateObject var coordinator = Coordinator()
     
     var body: some View {
-        NavigationStack(path: $path) {
-            SplashView(path: $path)
-                .navigationDestination(for: Destination.self) { dest in
+        NavigationStack(path: $coordinator.path) {
+            SplashView()
+                .environmentObject(coordinator)
+                .navigationDestination(for: Coordinator.Destination.self) { dest in
                     Group {
                         switch dest {
                         case .login:
-                            LoginView(path: $path)
+                            LoginView()
                         case .regist:
-                            RegistView(path: $path)
-//                        case .addressSearch(let url):
-//                            AddressSearchWebView(path: $path, url: .constant(url))
+                            RegistView()
+                            //                        case .addressSearch(let url):
+                            //                            AddressSearchWebView(path: $path, url: .constant(url))
                         case .termsAgreement:
-                            TermsAgreementView(path: $path)
+                            TermsAgreementView()
                         case .registComplete:
-                            RegistCompleteView(path: $path)
+                            RegistCompleteView()
                         case .findPassword:
-                            FindPasswordView(path: $path)
+                            FindPasswordView()
                         case .main(let tab):
-                            MainTabView(path: $path, tab: tab)
+                            MainTabView(tab: tab)
                         }
                     }
+                    .environmentObject(coordinator)
                     .toolbar(.hidden)
                 }
         }

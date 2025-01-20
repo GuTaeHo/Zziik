@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct RegistCompleteView: View {
-    @Binding var path: [AppCoordinator.Destination]
+    @EnvironmentObject var coordinator: Coordinator
     
     var body: some View {
         GeometryReader { proxy in
@@ -28,7 +28,7 @@ struct RegistCompleteView: View {
                 }
                 Spacer()
                 Button(action: {
-                    
+                    coordinator.changeContext(destination: .main(tab: .home(tab: .shipping)))
                 }) {
                     HStack(spacing: 4) {
                         Image(.imgZziik52)
@@ -36,10 +36,12 @@ struct RegistCompleteView: View {
                             .font(.custom(.semiBold600, size: 16))
                             .foregroundStyle(Color(.ffffff))
                     }
+                    .padding()
+                    .frame(maxWidth: .infinity)
                 }
-                .frame(width: proxy.size.width - 32, height: 56)
                 .background(Color(._1B1D28))
                 .clipShape(.rect(cornerRadius: 8))
+                .padding()
             }
             .frame(width: proxy.size.width)
         }
@@ -47,5 +49,6 @@ struct RegistCompleteView: View {
 }
 
 #Preview {
-    RegistCompleteView(path: .constant([.registComplete]))
+    RegistCompleteView()
+        .environmentObject(Coordinator())
 }

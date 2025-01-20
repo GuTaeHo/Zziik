@@ -19,11 +19,10 @@ struct MainTabView: View {
         case deliveryList
     }
     
-    @Binding var path: [AppCoordinator.Destination]
+    @EnvironmentObject var coordinator: Coordinator
     @State var tab: MainTab
     
-    init(path: Binding<[AppCoordinator.Destination]>, tab: MainTab) {
-        self._path = path
+    init(tab: MainTab) {
         self.tab = tab
         
         let image = UIImage.gradientImageWithBounds(
@@ -45,7 +44,7 @@ struct MainTabView: View {
     
     var body: some View {
         TabView(selection: $tab) {
-            HomeView(path: $path)
+            HomeView()
                 .tabItem {
                     if case .home(_) = tab {
                         Image(.icHomeFill28)
@@ -54,8 +53,9 @@ struct MainTabView: View {
                     }
                 }
                 .tag(MainTab.home(tab: .shipping))
+                .environmentObject(coordinator)
 
-            FavoriteView(path: $path)
+            FavoriteView()
                 .tabItem {
                     if case .favorite = tab {
                         Image(.icFavoriteFill28)
@@ -64,8 +64,9 @@ struct MainTabView: View {
                     }
                 }
                 .tag(MainTab.favorite)
+                .environmentObject(coordinator)
 
-            DeliveryListView(path: $path)
+            DeliveryListView()
                 .tabItem {
                     if case .deliveryList = tab {
                         Image(.icDeliveryListFill28)
@@ -74,6 +75,7 @@ struct MainTabView: View {
                     }
                 }
                 .tag(MainTab.deliveryList)
+                .environmentObject(coordinator)
         }
         .background(Color.gray.opacity(0.2))
     }
@@ -81,5 +83,6 @@ struct MainTabView: View {
 
 
 #Preview {
-    MainTabView(path: .constant([.findPassword]), tab: .deliveryList)
+    MainTabView(tab: .deliveryList)
+        .environmentObject(Coordinator())
 }

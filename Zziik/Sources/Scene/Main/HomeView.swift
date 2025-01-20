@@ -9,7 +9,7 @@ import SwiftUI
 
 
 struct HomeView: View {
-    @Binding var path: [AppCoordinator.Destination]
+    @EnvironmentObject var coordinator: Coordinator
     @State var invoiceNumber: String = ""
     
     var body: some View {
@@ -33,5 +33,5 @@ struct HomeView: View {
 }
 
 #Preview {
-    HomeView(path: .constant([.login]))
+    HomeView()
 }

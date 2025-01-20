@@ -9,7 +9,7 @@ import SwiftUI
 
 
 struct FavoriteView: View {
-    @Binding var path: [AppCoordinator.Destination]
+    @EnvironmentObject var coordinator: Coordinator
     
     var body: some View {
         Text("FavoriteView")
