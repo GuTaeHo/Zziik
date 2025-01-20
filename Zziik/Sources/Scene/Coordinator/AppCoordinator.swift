@@ -12,7 +12,7 @@ struct AppCoordinator: View {
     enum Destination: Hashable {
         case login
         case regist
-        case addressSearch(url: String)
+//        case addressSearch(url: String)
         case termsAgreement
         case registComplete
         case findPassword
@@ -20,7 +20,7 @@ struct AppCoordinator: View {
         case main(tab: MainTabView.MainTab)
     }
     
-    @State private var path: [AppCoordinator.Destination] = [.main(tab: .home(tab: .shipping))]
+    @State private var path: [AppCoordinator.Destination] = []
     
     var body: some View {
         NavigationStack(path: $path) {
@@ -32,8 +32,8 @@ struct AppCoordinator: View {
                             LoginView(path: $path)
                         case .regist:
                             RegistView(path: $path)
-                        case .addressSearch(let url):
-                            AddressSearchWebView(path: $path, url: .constant(url))
+//                        case .addressSearch(let url):
+//                            AddressSearchWebView(path: $path, url: .constant(url))
                         case .termsAgreement:
                             TermsAgreementView(path: $path)
                         case .registComplete:

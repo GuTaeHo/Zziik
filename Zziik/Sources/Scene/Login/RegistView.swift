@@ -161,7 +161,6 @@ struct RegistView: View {
                         progress = next
                     } else {
                         path.append(.termsAgreement)
-                        // TODO: 약관 동의 화면 전환
                     }
                 }
                     .frame(height: 50)
@@ -255,7 +254,13 @@ struct RegistView: View {
                                 HStack(spacing: 12) {
                                     UnderlineTextField(placeholder: "우편번호", text: $postNumber)
                                     Button(action: {
-                                        path.append(.addressSearch(url: "https://gutaeho.github.io/TempKakaoPost/"))
+                                        NavigationLink(destination: AddressSearchWebView(path: $path, url: .constant("https://gutaeho.github.io/TempKakaoPost/"))) {
+                                            Text("Go to Detail View")
+                                                .padding()
+                                                .background(Color.blue)
+                                                .foregroundColor(.white)
+                                                .cornerRadius(8)
+                                        }
                                     }) {
                                         Text("주소검색")
                                             .font(.custom(.regular400, size: 14))
