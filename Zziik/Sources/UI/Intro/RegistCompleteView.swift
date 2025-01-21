@@ -28,7 +28,7 @@ struct RegistCompleteView: View {
                 }
                 Spacer()
                 Button(action: {
-                    coordinator.changeContext(destination: .main(tab: .home(tab: .shipping)))
+                    coordinator.switchTo(context: .main(tab: .home(tab: .shipping)))
                 }) {
                     HStack(spacing: 4) {
                         Image(.imgZziik52)
@@ -50,5 +50,4 @@ struct RegistCompleteView: View {
 
 #Preview {
     RegistCompleteView()
-        .environmentObject(Coordinator())
 }

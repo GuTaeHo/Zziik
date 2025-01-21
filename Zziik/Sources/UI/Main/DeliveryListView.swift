@@ -15,7 +15,7 @@ struct DeliveryListView: View {
         VStack {
             Text("DeliveryListView")
             Button(action: {
-                coordinator.switchTo(destination: .login)
+                coordinator.switchTo(context: .intro)
             }) {
                 Text("로그아웃")
             }
@@ -25,5 +25,4 @@ struct DeliveryListView: View {
 
 #Preview {
     DeliveryListView()
-        .environmentObject(Coordinator())
 }

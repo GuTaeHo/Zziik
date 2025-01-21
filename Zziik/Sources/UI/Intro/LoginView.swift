@@ -11,15 +11,14 @@ import AuthenticationServices
 
 
 struct LoginView: View {
-    @State private var id: String = ""
-    @FocusState private var idFocus: Bool
-    @State private var pw: String = ""
-    @FocusState private var pwFocus: Bool
-    @State private var isLoginEnabled: Bool = false
-    @State private var invalidReason: String = ""
+    enum FocusField {
+        case id
+        case pw
+    }
     
     @EnvironmentObject var coordinator: Coordinator
-    
+    @StateObject var loginViewModel: LoginViewModel = .init()
+    @FocusState private var focusField: FocusField?
     @StateObject private var alert: CommonAlert = .init(isShowing: false)
     
     var body: some View {
@@ -40,37 +39,37 @@ struct LoginView: View {
                             }.padding(.top, 92)
                             
                             VStack(spacing: 30) {
-                                UnderlineTextField(placeholder: "이메일 입력", text: $id)
+                                UnderlineTextField(placeholder: "이메일 입력", text: $loginViewModel.id)
                                     .submitLabel(.next)
-                                    .focused($idFocus)
+                                    .focused($focusField, equals: .id)
                                     .onAppear {
                                         withAnimation {
                                             proxy.scrollTo("idTextField", anchor: .bottom)
                                         }
                                     }
                                     .onSubmit {
-                                        pwFocus = true
+                                        focusField = .pw
                                         withAnimation {
                                             proxy.scrollTo("pwTextField", anchor: .bottom)
                                         }
                                     }
-                                    .onChange(of: id) { _ in
-                                        validation(isShowAlert: false)
+                                    .onChange(of: loginViewModel.id) { _ in
+                                        loginViewModel.validation(isShowAlert: false)
                                     }
                                     .id("idTextField")
-                                UnderlinePasswordTextField(placeholder: "비밀번호 입력", text: $pw)
+                                UnderlinePasswordTextField(placeholder: "비밀번호 입력", text: $loginViewModel.pw)
                                     .submitLabel(.done)
-                                    .focused($pwFocus)
-                                    .onChange(of: pw) { _ in
-                                        validation(isShowAlert: false)
+                                    .focused($focusField, equals: .pw)
+                                    .onChange(of: loginViewModel.pw) { _ in
+                                        loginViewModel.validation(isShowAlert: false)
                                     }
                                     .id("pwTextField")
                                 
                             }.padding(.top, 18.0)
                             
-                            if invalidReason.isEmpty == false {
+                            if loginViewModel.invalidReason.isEmpty == false {
                                 HStack {
-                                    Text(invalidReason)
+                                    Text(loginViewModel.invalidReason)
                                         .font(.custom(.regular400, size: 13))
                                         .foregroundStyle(Color.init(.e90202))
                                     Spacer()
@@ -78,12 +77,13 @@ struct LoginView: View {
                             }
                             
                             VStack(spacing: 16) {
-                                CommonButton(title: "로그인", isEnabled: $isLoginEnabled) {
-                                    if isLoginEnabled {
+                                CommonButton(title: "로그인",
+                                             isEnabled: $loginViewModel.isLoginEnable) {
+                                    if loginViewModel.isLoginEnable {
                                         coordinator.push(destination: .main(tab: .home(tab: .shipping)))
                                     }
                                 }.onAppear {
-                                    validation(isShowAlert: false)
+                                    loginViewModel.validation(isShowAlert: false)
                                 }
                                 
                                 HStack(spacing: 0) {
@@ -145,7 +145,8 @@ struct LoginView: View {
                             alert.isShowing = true
                             alert.error = error
                         }
-                    }.alert(isPresented: $alert.isShowing, error: alert.error) {
+                    }
+                    .alert(isPresented: $alert.isShowing, error: alert.error) {
                         Button("확인") {
                             alert.isShowing = false
                         }
@@ -175,21 +176,6 @@ struct LoginView: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             .ignoresSafeArea(.keyboard, edges: .bottom)
         }
-    }
-    
-    func validation(isShowAlert: Bool) {
-        if id.isEmpty || pw.isEmpty {
-            isLoginEnabled = false
-            if isShowAlert {
-                invalidReason = "이메일 또는 비밀번호가 맞지 않습니다. 다시 확인해주세요."
-            } else {
-                invalidReason = ""
-            }
-            return
-        }
-        
-        isLoginEnabled = true
-        invalidReason = ""
     }
     
     func handleAuthorization(_ authResults: ASAuthorization) {

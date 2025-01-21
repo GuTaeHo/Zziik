@@ -1,5 +1,6 @@
 import ProjectDescription
 
+let appName = "Zziik"
 let bundleID = "com.halftime.zziik"
 
 let deploymentTargets = DeploymentTargets.iOS("16.0")
@@ -65,10 +66,10 @@ let dependencies: [TargetDependency] = [
 ]
 
 let project = Project(
-    name: "Zziik",
+    name: appName,
     targets: [
         .target(
-            name: "Zziik",
+            name: appName,
             destinations: .iOS,
             product: .app,
             bundleId: bundleID,

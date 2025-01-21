@@ -23,7 +23,9 @@ struct HomeView: View {
                 .padding(.init(top: 19, leading: 14, bottom: 0, trailing: 21))
                 .frame(minHeight: 24)
                 
-                CommonSearchView(placeholder: "송장번호를 입력해주세요", text: $invoiceNumber)
+                CommonSearchView(action: { coordinator.push(destination: .login) },
+                                 placeholder: "송장번호를 입력해주세요",
+                                 text: $invoiceNumber)
                     .padding(.init(top: 0, leading: 16, bottom: 26, trailing: 16))
             }
             .background(Color(._1B1D28))

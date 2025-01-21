@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-@MainActor
 final class Coordinator: ObservableObject {
     enum Destination: Hashable {
         case login
@@ -19,7 +18,12 @@ final class Coordinator: ObservableObject {
         case main(tab: MainTabView.MainTab)
     }
     
-    @Published var path: [Destination] = [.registComplete]
+    enum Context: Hashable {
+        case intro
+        case main(tab: MainTabView.MainTab)
+    }
+    
+    @Published var path: [Destination] = []
     public init() { }
     
     func push(destination: Destination) {
@@ -39,15 +43,23 @@ final class Coordinator: ObservableObject {
         path.removeAll()
     }
     
-    func changeContext(destination: Destination) {
-        path.removeAll()
-        path.append(destination)
-    }
-    
+    /// 이전 화면과 `destination` 으로 교체
     func switchTo(destination: Destination) {
         guard !path.isEmpty else { return }
         let lastIndex = path.count - 1
         path[lastIndex] = destination
+    }
+    
+    /// 화면 스택을 `context` 로 교체
+    func switchTo(context: Context) {
+        path.removeAll()
+        
+        switch context {
+        case .intro:
+            path.append(.login)
+        case .main(let tab):
+            path.append(.main(tab: tab))
+        }
     }
 }
 
@@ -57,7 +69,6 @@ struct AppCoordinator: View {
     var body: some View {
         NavigationStack(path: $coordinator.path) {
             SplashView()
-                .environmentObject(coordinator)
                 .navigationDestination(for: Coordinator.Destination.self) { dest in
                     Group {
                         switch dest {
@@ -75,9 +86,10 @@ struct AppCoordinator: View {
                             MainTabView(tab: tab)
                         }
                     }
-                    .environmentObject(coordinator)
                     .toolbar(.hidden)
                 }
         }
+        // MARK: 코디네이터 주입 (최상위 뷰에서 한번 주입)
+        .environmentObject(coordinator)
     }
 }

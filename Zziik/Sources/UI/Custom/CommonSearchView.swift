@@ -12,12 +12,14 @@ struct CommonSearchView: View {
     var placeholder: String
     
     @Binding var text: String
+    private var action: () -> Void
     private var maxTextCount: Int
     @State private var isDeleteVisiable: Bool
     @FocusState private var isFocused: Bool
     
     
-    init(placeholder: String, text: Binding<String>, isDeleteVisiable: Bool = false, maxTextCount: Int = .max) {
+    init(action: @escaping () -> Void, placeholder: String, text: Binding<String>, isDeleteVisiable: Bool = false, maxTextCount: Int = .max) {
+        self.action = action
         self.placeholder = placeholder
         self._text = text
         self.isDeleteVisiable = isDeleteVisiable
@@ -61,6 +63,9 @@ struct CommonSearchView: View {
             
             Image(.icSearch24)
                 .padding(.init(top: 12, leading: 16, bottom: 14, trailing: 16))
+                .onTapGesture {
+                    action()
+                }
         }
         .animation(.easeInOut(duration: 0.2), value: isFocused)
         .background(Color(.white))
@@ -70,5 +75,5 @@ struct CommonSearchView: View {
 
 
 #Preview {
-    CommonSearchView(placeholder: "input your text", text: .constant(""))
+    CommonSearchView(action: {}, placeholder: "input your text", text: .constant(""))
 }

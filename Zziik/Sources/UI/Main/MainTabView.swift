@@ -53,7 +53,6 @@ struct MainTabView: View {
                     }
                 }
                 .tag(MainTab.home(tab: .shipping))
-                .environmentObject(coordinator)
 
             FavoriteView()
                 .tabItem {
@@ -64,7 +63,6 @@ struct MainTabView: View {
                     }
                 }
                 .tag(MainTab.favorite)
-                .environmentObject(coordinator)
 
             DeliveryListView()
                 .tabItem {
@@ -75,7 +73,6 @@ struct MainTabView: View {
                     }
                 }
                 .tag(MainTab.deliveryList)
-                .environmentObject(coordinator)
         }
         .background(Color.gray.opacity(0.2))
     }
@@ -84,5 +81,4 @@ struct MainTabView: View {
 
 #Preview {
     MainTabView(tab: .deliveryList)
-        .environmentObject(Coordinator())
 }
