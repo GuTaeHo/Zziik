@@ -31,7 +31,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     private func initLayout() {
-        let coordinator = AppCoordinator()
+        let coordinator = AppCoordinatorView()
         let hostingVC = UIHostingController(rootView: coordinator)
         let viewController = UIViewController().then {
             $0.addChild(hostingVC)

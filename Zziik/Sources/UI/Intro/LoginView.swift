@@ -17,9 +17,9 @@ struct LoginView: View {
     }
     
     @EnvironmentObject var coordinator: Coordinator
+    @EnvironmentObject var alert: CommonAlert
     @StateObject var loginViewModel: LoginViewModel = .init()
     @FocusState private var focusField: FocusField?
-    @StateObject private var alert: CommonAlert = .init(isShowing: false)
     
     var body: some View {
         GeometryReader { geometry in

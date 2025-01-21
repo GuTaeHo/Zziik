@@ -1,5 +1,5 @@
 //
-//  AppCoordinator.swift
+//  Coordinator.swift
 //  Zziik
 //
 //  Created by 구태호 on 1/14/25.
@@ -60,36 +60,5 @@ final class Coordinator: ObservableObject {
         case .main(let tab):
             path.append(.main(tab: tab))
         }
-    }
-}
-
-struct AppCoordinator: View {
-    @StateObject var coordinator = Coordinator()
-    
-    var body: some View {
-        NavigationStack(path: $coordinator.path) {
-            SplashView()
-                .navigationDestination(for: Coordinator.Destination.self) { dest in
-                    Group {
-                        switch dest {
-                        case .login:
-                            LoginView()
-                        case .regist:
-                            RegistView()
-                        case .termsAgreement:
-                            TermsAgreementView()
-                        case .registComplete:
-                            RegistCompleteView()
-                        case .findPassword:
-                            FindPasswordView()
-                        case .main(let tab):
-                            MainTabView(tab: tab)
-                        }
-                    }
-                    .toolbar(.hidden)
-                }
-        }
-        // MARK: 코디네이터 주입 (최상위 뷰에서 한번 주입)
-        .environmentObject(coordinator)
     }
 }
