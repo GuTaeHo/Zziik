@@ -34,7 +34,7 @@ struct SplashView: View {
                     rotation = 0
                     scale = 1.0
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                        coordinator.push(destination: .login)
+                        coordinator.push(destination: .main(tab: .home(tab: .shipping)))
                     }
                 }
                 .onTapGesture {

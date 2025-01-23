@@ -10,17 +10,14 @@ import SwiftUI
 
 struct MainTabView: View {
     enum MainTab: Hashable {
-        enum HomeTab {
-            case shipping
-            case completed
-        }
-        case home(tab: HomeTab)
+        case home(tab: HomeView.HomeTab)
         case favorite
         case deliveryList
     }
     
     @EnvironmentObject var coordinator: Coordinator
     @State var tab: MainTab
+    @State var invoiceNumber: String = ""
     
     init(tab: MainTab) {
         self.tab = tab
@@ -43,6 +40,21 @@ struct MainTabView: View {
     }
     
     var body: some View {
+        VStack(spacing: 21) {
+            HStack {
+                Image(.imgZziik66)
+                Spacer()
+                Image(.icUserFill24)
+            }
+            .padding(.init(top: 19, leading: 14, bottom: 0, trailing: 21))
+            .frame(minHeight: 24)
+            
+            CommonSearchView(action: { coordinator.push(destination: .login) },
+                             placeholder: "송장번호를 입력해주세요",
+                             text: $invoiceNumber)
+                .padding(.init(top: 0, leading: 16, bottom: 26, trailing: 16))
+        }
+        .background(Color(._1B1D28))
         TabView(selection: $tab) {
             HomeView()
                 .tabItem {
@@ -52,7 +64,12 @@ struct MainTabView: View {
                         Image(.icHomeLine28)
                     }
                 }
-                .tag(MainTab.home(tab: .shipping))
+                .tag(
+                    Set([
+                        MainTab.home(tab: .shipping),
+                        MainTab.home(tab: .completed)
+                    ])
+                )
 
             FavoriteView()
                 .tabItem {
